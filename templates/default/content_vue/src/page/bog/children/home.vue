@@ -1,0 +1,106 @@
+<template>
+    <div>
+        <div class="container">
+
+
+            <div>{{userinfo.username}}</div>
+            <div>{{userinfo.username_unMask}}</div>
+            <div>{{userinfo.nickname}}</div>
+            <div>
+
+                <ul>
+
+                    <router-link  tag="li" v-for="(infor,index) in userinfo.hotmenu" :to="'/bog_game/' + infor.lotteryid" :key="infor.lotteryid" class="addmation sprite" :class="checkball(infor.lotterytype)">{{infor.title}}</router-link>
+
+                </ul>
+
+
+            </div>
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</template>
+
+<script>
+
+    import 'src/style/init.css'
+
+    export default {
+        data(){
+            return{
+                userinfo:JSON.parse(localStorage.userinfo),
+                ball_:"ball_",
+            }
+        },
+
+        mounted(){
+
+            console.log(this.userinfo);
+
+        },
+
+        components:{
+
+        },
+
+        computed:{
+
+        },
+
+        methods:{
+            checkball:function(str){
+                return "ball_"+str
+            }
+        },
+        /*created时，可用data和prop中的数据。
+    computed的属性，当在mounted或者dom中使用到时，才会属性的执行代码。
+    最后是mouted，可使用前面的数据，并且此时才可以操作dom。
+    watch不会再创建阶段自动执行，除了添加立即执行这个配置项。
+
+    作者：Mr_Ma
+    链接：https://juejin.im/post/5d4299156fb9a06af92b82ff
+    来源：掘金
+    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。*/
+    }
+
+</script>
+
+<style lang="scss" scoped>
+    @import 'src/style/mixin';
+
+    li{
+        float: left;
+        margin-left: 1%;
+        margin-right: 1%;
+        text-align: center;
+        background-color: #f7f7f7;
+        margin-bottom: 1%;
+    }
+    .sprite{
+        @include bis('../../../images/img/index/sprite.png');
+    }
+    .addmation{
+        width: 150px;
+        height: 150px;
+    }
+    .ball_5 {
+        background-position: -462px -368px;
+    }
+    .ball_1 {
+        background-position: -154px -368px;
+    }
+    .ball_2 {
+        background-position: -154px -525px;
+    }
+    .ball_0 {
+        background-position: 0 -368px;
+    }
+
+</style>
