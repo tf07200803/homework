@@ -62,6 +62,7 @@ const phpcmv = r => require.ensure([], () => r(require('../page/phpcmv/index')),
 const phpcmv_login = r => require.ensure([], () => r(require('../page/phpcmv/children/login')), 'phpcmv_login')
 const phpcmv_home = r => require.ensure([], () => r(require('../page/phpcmv/children/home')), 'phpcmv_home')
 const phpcmv_register = r => require.ensure([], () => r(require('../page/phpcmv/children/register')), 'phpcmv_register')
+const phpcmv_news = r => require.ensure([], () => r(require('../page/phpcmv/children/news')), 'phpcmv_news')
 
 export default [{
     path: '/',
@@ -119,6 +120,10 @@ export default [{
                 {
                     path: 'phpcmv_register', //註冊頁
                     component: phpcmv_register,
+                },
+                {
+                    path: 'phpcmv_news', //註冊頁
+                    component: phpcmv_news,
                 }
 
             ]

@@ -25,7 +25,7 @@
     import 'src/style/init.css'
     import $ from "jquery";
     import axios from 'axios';
-    import footerArea from '../../components/footer/bog_footer'
+    import footerArea from '../../components/footer/footer'
 
     export default {
         data(){
