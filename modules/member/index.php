@@ -153,6 +153,19 @@ class index extends foreground {
 			if(pc_base::load_config('system', 'phpsso')) {
 				$this->_init_phpsso();
 				$status = $this->client->ps_member_register($userinfo['username'], $userinfo['password'], $userinfo['email'], $userinfo['regip'], $userinfo['encrypt']);
+
+				if($type){
+                    if($status==-1){
+                        alert::message(-1,'用户名已经存在');
+                        exit;
+                    }
+                    if($status==-2){
+                        alert::message(-1,'email已存在');
+                        exit;
+                    }
+
+				}
+
 				if($status > 0) {
 					$userinfo['phpssouid'] = $status;
 					//传入phpsso为明文密码，加密后存入phpcms_v9
@@ -210,7 +223,7 @@ class index extends foreground {
                             alert::message(1,L('operation_success'));
                         }else{
 						showmessage(L('operation_success').$synloginstr, 'index.php?m=member&c=index&a=init');
-					}
+						}
 
 					}
 
@@ -218,7 +231,12 @@ class index extends foreground {
 			} else {
 				showmessage(L('enable_register').L('enable_phpsso'), 'index.php?m=member&c=index&a=login');
 			}
-			showmessage(L('operation_failure'), HTTP_REFERER);
+            if($type){
+                alert::message(-1,L('operation_failure'));
+            }else{
+                showmessage(L('operation_failure'), HTTP_REFERER);
+            }
+
 		} else {
 			if(!pc_base::load_config('system', 'phpsso')) {
 				showmessage(L('enable_register').L('enable_phpsso'), 'index.php?m=member&c=index&a=login');
