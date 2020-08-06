@@ -7,7 +7,7 @@ module.exports = {
             NODE_ENV: '"production"'
         },
         index: path.resolve(__dirname, '../../content/index.html'),
-        assetsRoot: path.resolve(__dirname, '../../../../../'),
+        assetsRoot: path.resolve(__dirname, '../'),
         assetsSubDirectory: 'static',
         assetsPublicPath: '',
         productionSourceMap: true,
