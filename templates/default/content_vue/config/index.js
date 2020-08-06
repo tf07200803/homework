@@ -9,7 +9,7 @@ module.exports = {
         index: path.resolve(__dirname, '../../content/index.html'),
         assetsRoot: path.resolve(__dirname, '../'),
         assetsSubDirectory: 'static',
-        assetsPublicPath: '',
+        assetsPublicPath: '/homework/phpcms/templates/default/content_vue/',
         productionSourceMap: true,
         // Surge or Netlify already gzip all static assets for you.
         // Before setting to `true`, make sure to:
