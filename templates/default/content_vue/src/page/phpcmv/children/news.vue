@@ -4,7 +4,11 @@
 
 最新消息
 
+        <ul>
 
+            <li v-for="(infor,index,i) in infor">{{infor.title}}</li>
+
+        </ul>
 
 
         </div>
@@ -20,10 +24,8 @@
     export default {
         data(){
             return{
-                loginpath:'index.php?m=member&c=index&a=init&webtype=vue',
-                username:'',
-                nickname:'',
-                email:''
+                loginpath:'index.php?m=announce&c=index&a=vue_lists&webtype=vue',
+                infor:'',
             }
         },
 
@@ -33,14 +35,10 @@
             axios.get(this.loginpath, {
             }).then(function (response) {
                 var res=response.data;
-                if(res.status==-1){
-                    self.$router.push('/phpcmv/phpcmv_login');
-                }else if(res.status==1){
-                    self.username=res.data.username;
-                    self.nickname=res.data.nickname;
-                    self.email=res.data.email;
+                if(res.status==1){
+                    self.infor=res.data;
+                    console.log(self.infor)
                 }
-
 
             }).catch(function (err) {
                 console.log(err);
@@ -75,5 +73,7 @@
 <style lang="scss" scoped>
     @import 'src/style/mixin';
 
-
+    li{
+        border-bottom: 2px solid #0F0F0F;
+    }
 </style>

@@ -11,7 +11,7 @@ class admin_announce extends admin {
 		$this->username = param::get_cookie('admin_username');
 		$this->db = pc_base::load_model('announce_model');
 	}
-	
+
 	public function init() {
 		//公告列表
 		$sql = '';
@@ -27,14 +27,38 @@ class admin_announce extends admin {
 		$big_menu = array('javascript:window.top.art.dialog({id:\'add\',iframe:\'?m=announce&c=admin_announce&a=add\', title:\''.L('announce_add').'\', width:\'700\', height:\'500\', lock:true}, function(){var d = window.top.art.dialog({id:\'add\'}).data.iframe;var form = d.document.getElementById(\'dosubmit\');form.click();return false;}, function(){window.top.art.dialog({id:\'add\'}).close()});void(0);', L('announce_add'));
 		include $this->admin_tpl('announce_list');
 	}
-	
+
 	/**
 	 * 添加公告
 	 */
 	public function add() {
 		if(isset($_POST['dosubmit'])) {
-			$_POST['announce'] = $this->check($_POST['announce']);
-			if($this->db->insert($_POST['announce'])) showmessage(L('announcement_successful_added'), HTTP_REFERER, '', 'add');
+            $src = imagecreatefromjpeg($_FILES['file']['tmp_name']);
+            $src_w = imagesx($src);
+            $src_h = imagesy($src);
+            // 假設要長寬不超過90
+            if($src_w > $src_h){
+                $thumb_w = 90;
+                $thumb_h = intval($src_h / $src_w * 90);
+            }else{
+                $thumb_h = 90;
+                $thumb_w = intval($src_w / $src_h * 90);
+            }
+            $thumb = imagecreatetruecolor($thumb_w, $thumb_h);
+            // 建立縮圖
+            $thumb = imagecreatetruecolor($thumb_w, $thumb_h);
+            // 開始縮圖
+            imagecopyresampled($thumb, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w, $src_h);
+            // 儲存縮圖到指定 thumb 目錄
+            var_dump($_FILES['file']);
+            echo APP_PATH . "uploadfile/poster/" . $_FILES['file']['name'];
+            //imagejpeg($thumb, APP_PATH . "uploadfile/poster/" . $_FILES['file']['name']);
+            //copy($_FILES['file']['tmp_name'], APP_PATH . "uploadfile/" . $_FILES['file']['name']);
+            $test=move_uploaded_file($_FILES["file"]["tmp_name"],APP_PATH . "uploadfile/poster/" . $_FILES['file']['name']);
+            var_dump($test);
+            exit;
+			//$_POST['announce'] = $this->check($_POST['announce']);
+			//if($this->db->insert($_POST['announce'])) showmessage(L('announcement_successful_added'), HTTP_REFERER, '', 'add');
 		} else {
 			//获取站点模板信息
 			pc_base::load_app_func('global', 'admin');
@@ -51,7 +75,7 @@ class admin_announce extends admin {
 			include $this->admin_tpl('announce_add');
 		}
 	}
-	
+
 	/**
 	 * 修改公告
 	 */
@@ -76,7 +100,7 @@ class admin_announce extends admin {
 			include $this->admin_tpl('announce_edit');
 		}
 	}
-	
+
 	/**
 	 * ajax检测公告标题是否重复
 	 */
@@ -91,7 +115,7 @@ class admin_announce extends admin {
 			if ($r['title'] == $title) {
 				exit('1');
 			}
-		} 
+		}
 		$r = $this->db->get_one(array('siteid' => $this->get_siteid(), 'title' => $title), 'aid');
 		if($r['aid']) {
 			exit('0');
@@ -99,7 +123,7 @@ class admin_announce extends admin {
 			exit('1');
 		}
 	}
-	
+
 	/**
 	 * 批量修改公告状态 使其成为审核、未审核状态
 	 */
@@ -117,7 +141,7 @@ class admin_announce extends admin {
 			}
 		}
 	}
-	
+
 	/**
 	 * 批量删除公告
 	 */
@@ -134,7 +158,7 @@ class admin_announce extends admin {
 			}
 		}
 	}
-	
+
 	/**
 	 * 验证表单数据
 	 * @param  		array 		$data 表单数组数据

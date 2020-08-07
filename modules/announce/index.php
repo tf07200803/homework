@@ -1,14 +1,15 @@
-<?php 
+<?php
 defined('IN_PHPCMS') or exit('No permission resources.');
+pc_base::load_sys_class('alert');
 class index {
 	function __construct() {
 		$this->db = pc_base::load_model('announce_model');
 	}
-	
+
 	public function init() {
-		
+
 	}
-	
+
 	/**
 	 * 展示公告
 	 */
@@ -28,8 +29,15 @@ class index {
 			$SEO = seo(get_siteid(), '', $title);
 			include template('announce', $template, $r['style']);
 		} else {
-			showmessage(L('no_exists'));	
+			showmessage(L('no_exists'));
 		}
 	}
+
+	public function vue_lists(){
+	    $list=pc_base::load_app_class('announce_tag','announce');
+	    $data['limit']=10;
+        $infor=$list->lists($data);
+        alert::message(1,'',$infor);
+    }
 }
 ?>

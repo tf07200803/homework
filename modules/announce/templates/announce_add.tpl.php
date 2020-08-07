@@ -1,9 +1,9 @@
-<?php 
+<?php
 defined('IN_ADMIN') or exit('No permission resources.');
 include $this->admin_tpl('header', 'admin');
 ?>
 <div class="pad-10">
-<form method="post" action="?m=announce&c=admin_announce&a=add" name="myform" id="myform">
+<form method="post" action="?m=announce&c=admin_announce&a=add" name="myform" id="myform" enctype="multipart/form-data">
 <table class="table_form" width="100%" cellspacing="0">
 <tbody>
 	<tr>
@@ -25,7 +25,7 @@ include $this->admin_tpl('header', 'admin');
 	<tr>
   		<th><strong><?php echo L('available_style')?>：</strong></th>
         <td>
-		<?php echo form::select($template_list, $info['default_style'], 'name="announce[style]" id="style" onchange="load_file_list(this.value)"', L('please_select'))?> 
+		<?php echo form::select($template_list, $info['default_style'], 'name="announce[style]" id="style" onchange="load_file_list(this.value)"', L('please_select'))?>
 		</td>
 	</tr>
 	<tr>
@@ -36,6 +36,10 @@ include $this->admin_tpl('header', 'admin');
 		<th><strong><?php echo L('announce_status')?></strong></th>
 		<td><input name="announce[passed]" type="radio" value="1" checked>&nbsp;<?php echo L('pass')?>&nbsp;&nbsp;<input name="announce[passed]" type="radio" value="0">&nbsp;<?php echo L('unpass')?></td>
 	</tr>
+    <tr>
+        <th><strong>照片上傳</strong></th>
+        <td><input type="file" name="file"> </td>
+    </tr>
 	</tbody>
 </table>
 <input type="submit" name="dosubmit" id="dosubmit" value=" <?php echo L('ok')?> " class="dialog">&nbsp;<input type="reset" class="dialog" value=" <?php echo L('clear')?> ">
