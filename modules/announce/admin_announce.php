@@ -31,34 +31,45 @@ class admin_announce extends admin {
 	/**
 	 * 添加公告
 	 */
+
+	public function imgupload($files){
+        $src = imagecreatefromjpeg($files['file']['tmp_name']);
+
+        // 取得來源圖片長寬
+        $src_w = imagesx($src);
+        $src_h = imagesy($src);
+
+        // 假設要長寬不超過90
+        if($src_w > $src_h){
+            $thumb_w = 90;
+            $thumb_h = intval($src_h / $src_w * 90);
+        }else{
+            $thumb_h = 90;
+            $thumb_w = intval($src_w / $src_h * 90);
+        }
+
+        // 建立縮圖
+        $thumb = imagecreatetruecolor($thumb_w, $thumb_h);
+
+        // 開始縮圖
+        imagecopyresampled($thumb, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w, $src_h);
+        $ext_name = strrchr($files['file']['name'], ".");
+        // 儲存縮圖到指定 thumb 目錄
+        $date=date('Ymdhis');
+        imagejpeg($thumb, "uploadfile/poster/". $date . $ext_name);
+
+        return APP_PATH . "/uploadfile/poster/". $date . $ext_name;
+
+        // 複製上傳圖片到指定 images 目錄
+        //copy($files['file']['tmp_name'], "uploadfile/poster/" . $files['file']['name']);
+	}
+
 	public function add() {
 		if(isset($_POST['dosubmit'])) {
-            $src = imagecreatefromjpeg($_FILES['file']['tmp_name']);
-            $src_w = imagesx($src);
-            $src_h = imagesy($src);
-            // 假設要長寬不超過90
-            if($src_w > $src_h){
-                $thumb_w = 90;
-                $thumb_h = intval($src_h / $src_w * 90);
-            }else{
-                $thumb_h = 90;
-                $thumb_w = intval($src_w / $src_h * 90);
-            }
-            $thumb = imagecreatetruecolor($thumb_w, $thumb_h);
-            // 建立縮圖
-            $thumb = imagecreatetruecolor($thumb_w, $thumb_h);
-            // 開始縮圖
-            imagecopyresampled($thumb, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w, $src_h);
-            // 儲存縮圖到指定 thumb 目錄
-            var_dump($_FILES['file']);
-            echo APP_PATH . "uploadfile/poster/" . $_FILES['file']['name'];
-            //imagejpeg($thumb, APP_PATH . "uploadfile/poster/" . $_FILES['file']['name']);
-            //copy($_FILES['file']['tmp_name'], APP_PATH . "uploadfile/" . $_FILES['file']['name']);
-            $test=move_uploaded_file($_FILES["file"]["tmp_name"],APP_PATH . "uploadfile/poster/" . $_FILES['file']['name']);
-            var_dump($test);
-            exit;
-			//$_POST['announce'] = $this->check($_POST['announce']);
-			//if($this->db->insert($_POST['announce'])) showmessage(L('announcement_successful_added'), HTTP_REFERER, '', 'add');
+
+            $_POST['announce']['imgpath']=$this->imgupload($_FILES);
+			$_POST['announce'] = $this->check($_POST['announce']);
+			if($this->db->insert($_POST['announce'])) showmessage(L('announcement_successful_added'), HTTP_REFERER, '', 'add');
 		} else {
 			//获取站点模板信息
 			pc_base::load_app_func('global', 'admin');
@@ -83,6 +94,7 @@ class admin_announce extends admin {
 		$_GET['aid'] = intval($_GET['aid']);
 		if(!$_GET['aid']) showmessage(L('illegal_operation'));
 		if(isset($_POST['dosubmit'])) {
+            $_POST['announce']['imgpath']=$this->imgupload($_FILES);
 			$_POST['announce'] = $this->check($_POST['announce'], 'edit');
 			if($this->db->update($_POST['announce'], array('aid' => $_GET['aid']))) showmessage(L('announced_a'), HTTP_REFERER, '', 'edit');
 		} else {

@@ -1,9 +1,9 @@
-<?php 
+<?php
 defined('IN_ADMIN') or exit('No permission resources.');
 include $this->admin_tpl('header', 'admin');
 ?>
 <div class="pad-10">
-<form method="post" action="?m=announce&c=admin_announce&a=edit&aid=<?php echo $_GET['aid']?>" name="myform" id="myform">
+<form method="post" action="?m=announce&c=admin_announce&a=edit&aid=<?php echo $_GET['aid']?>" name="myform" id="myform" enctype="multipart/form-data">
 <table class="table_form" width="100%">
 <tbody>
 	<tr>
@@ -37,6 +37,10 @@ include $this->admin_tpl('header', 'admin');
 		<th><?php echo L('announce_status')?></th>
 		<td><input name="announce[passed]" type="radio" value="1" <?php if($an_info['passed']==1) {?>checked<?php }?>></input>&nbsp;<?php echo L('pass')?>&nbsp;&nbsp;<input name="announce[passed]" type="radio" value="0" <?php if($an_info['passed']==0) {?>checked<?php }?>>&nbsp;<?php echo L('unpass')?></td>
 	</tr>
+    <tr>
+        <th><strong>照片上傳</strong></th>
+        <td><input type="file" name="file"> </td>
+    </tr>
     </tbody>
 </table>
 <input type="submit" name="dosubmit" id="dosubmit" value=" <?php echo L('ok')?> " class="dialog">&nbsp;<input type="reset" class="dialog" value=" <?php echo L('clear')?> ">

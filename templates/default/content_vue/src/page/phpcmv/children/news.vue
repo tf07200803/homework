@@ -6,7 +6,7 @@
 
         <ul>
 
-            <li v-for="(infor,index,i) in infor">{{infor.title}}</li>
+            <li v-for="(infor,index,i) in infor"><img v-bind:src="infor.imgpath" />  {{infor.title}}</li>
 
         </ul>
 
