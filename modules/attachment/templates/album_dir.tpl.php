@@ -15,7 +15,7 @@ include $this->admin_tpl('header','attachment');
 			    imgCSS: { width: 200 }
 			});
 		}
-	});	
+	});
 </script>
 <div class="pad-lr-10">
 <div class="table-list">
@@ -28,7 +28,7 @@ include $this->admin_tpl('header','attachment');
 <td align="left"><a href="<?php echo '?m=attachment&c=attachments&a=album_dir&dir='.stripslashes(dirname($dir))?>"><img src="<?php echo IMG_PATH?>folder-closed.gif" /><?php echo L("parent_directory")?></td></a>
 </tr>
 <?php endif;?>
-<?php 
+<?php
 if(is_array($list)):
 	foreach($list as $v):
 	$filename = basename($v);
@@ -37,10 +37,10 @@ if(is_array($list)):
 <?php if (is_dir($v)) {
 	echo '<td align="left"><img src="'.IMG_PATH.'folder-closed.gif" /> <a href="?m=attachment&c=attachments&a=album_dir&dir='.(isset($_GET['dir']) && !empty($_GET['dir']) ? stripslashes($_GET['dir']).'/' : '').$filename.'"><b>'.$filename.'</b></a></td>';
 } else {
-	echo '<td align="left" onclick="javascript:album_cancel(this)"><img src="'.file_icon($filename,'gif').'" /> <a href="javascript:;" rel="'.$url.$filename.'" title="'.$filename.'">'.$filename.'</a></td>';
+	echo '<td align="left" onclick="javascript:album_cancel(this)"><img src="'.file_icon($filename,'gif').'" /><img src="'.$local."/".$filename.'" style="width:100px;"/><a href="javascript:;" rel="'.$url.$filename.'" title="'.$filename.'">'.$filename.'</a></td>';
 }?>
 </tr>
-<?php 
+<?php
 	endforeach;
 endif;
 ?>
@@ -51,7 +51,7 @@ endif;
 <script type="text/javascript">
 $(document).ready(function(){
 	set_status_empty();
-});	
+});
 function set_status_empty(){
 	parent.window.$('#att-status').html('');
 	parent.window.$('#att-name').html('');

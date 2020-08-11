@@ -9,7 +9,7 @@ class index extends admin {
 		$this->menu_db = pc_base::load_model('menu_model');
 		$this->panel_db = pc_base::load_model('admin_panel_model');
 	}
-	
+
 	public function init () {
 		$userid = $_SESSION['userid'];
 		$admin_username = param::get_cookie('admin_username');
@@ -23,10 +23,10 @@ class index extends admin {
 		$site_model = param::get_cookie('site_model');
 		include $this->admin_tpl('index');
 	}
-	
+
 	public function login() {
 		if(isset($_GET['dosubmit'])) {
-			
+
 			//不为口令卡验证
 			if (!isset($_GET['card'])) {
 				$username = isset($_POST['username']) ? trim($_POST['username']) : showmessage(L('nameerror'),HTTP_REFERER);
@@ -59,7 +59,7 @@ class index extends admin {
 			$r = $this->db->get_one(array('username'=>$username));
 			if(!$r) showmessage(L('user_not_exist'),'?m=admin&c=index&a=login');
 			$password = md5(md5(trim((!isset($_GET['card']) ? $_POST['password'] : $_SESSION['card_password']))).$r['encrypt']);
-			
+
 			if($r['password'] != $password) {
 				$ip = ip();
 				if($rtime && $rtime['times'] < $maxloginfailedtimes) {
@@ -73,7 +73,7 @@ class index extends admin {
 				showmessage(L('password_error',array('times'=>$times)),'?m=admin&c=index&a=login',3000);
 			}
 			$this->times_db->delete(array('username'=>$username));
-			
+
 			//查看是否使用口令卡
 			if (!isset($_GET['card']) && $r['card'] && pc_base::load_config('system', 'safe_card') == 1) {
 				$_SESSION['card_username'] = $username;
@@ -85,7 +85,7 @@ class index extends admin {
 				isset($_SESSION['card_password']) ? $_SESSION['card_password'] = '' : '';
 				isset($_SESSION['card_password']) ? $_SESSION['card_verif'] = '' : '';
 			}
-			
+
 			$this->db->update(array('lastloginip'=>ip(),'lastlogintime'=>SYS_TIME),array('userid'=>$r['userid']));
 			$_SESSION['userid'] = $r['userid'];
 			$_SESSION['roleid'] = $r['roleid'];
@@ -111,7 +111,7 @@ class index extends admin {
 			include $this->admin_tpl('login');
 		}
 	}
-	
+
 	public function public_card() {
 		$username = $_SESSION['card_username'] ? $_SESSION['card_username'] :  showmessage(L('nameerror'),HTTP_REFERER);
 		$r = $this->db->get_one(array('username'=>$username));
@@ -127,20 +127,20 @@ class index extends admin {
 		$rand = card::authe_rand($r['card']);
 		include $this->admin_tpl('login_card');
 	}
-	
+
 	public function public_logout() {
 		$_SESSION['userid'] = 0;
 		$_SESSION['roleid'] = 0;
 		param::set_cookie('admin_username','');
 		param::set_cookie('userid',0);
-		
+
 		//退出phpsso
 		$phpsso_api_url = pc_base::load_config('system', 'phpsso_api_url');
 		$phpsso_logout = '<script type="text/javascript" src="'.$phpsso_api_url.'/api.php?op=logout" reload="1"></script>';
-		
+
 		showmessage(L('logout_success').$phpsso_logout,'?m=admin&c=index&a=login');
 	}
-	
+
 	//左侧菜单
 	public function public_menu_left() {
 		$menuid = intval($_GET['menuid']);
@@ -149,31 +149,31 @@ class index extends admin {
 			foreach($datas as $_value) {
 	        	if($parentid==$_value['id']) {
 	        		echo '<li id="_M'.$_value['id'].'" class="on top_menu"><a href="javascript:_M('.$_value['id'].',\'?m='.$_value['m'].'&c='.$_value['c'].'&a='.$_value['a'].'\')" hidefocus="true" style="outline:none;">'.L($_value['name']).'</a></li>';
-	        		
+
 	        	} else {
 	        		echo '<li id="_M'.$_value['id'].'" class="top_menu"><a href="javascript:_M('.$_value['id'].',\'?m='.$_value['m'].'&c='.$_value['c'].'&a='.$_value['a'].'\')"  hidefocus="true" style="outline:none;">'.L($_value['name']).'</a></li>';
-	        	}      	
+	        	}
 	        }
 		} else {
 			include $this->admin_tpl('left');
 		}
-		
+
 	}
 	//当前位置
 	public function public_current_pos() {
 		echo admin::current_pos($_GET['menuid']);
 		exit;
 	}
-	
+
 	/**
 	 * 设置站点ID COOKIE
 	 */
 	public function public_set_siteid() {
-		$siteid = isset($_GET['siteid']) && intval($_GET['siteid']) ? intval($_GET['siteid']) : exit('0'); 
+		$siteid = isset($_GET['siteid']) && intval($_GET['siteid']) ? intval($_GET['siteid']) : exit('0');
 		param::set_cookie('siteid', $siteid);
 		exit('1');
 	}
-	
+
 	public function public_ajax_add_panel() {
 		$menuid = isset($_POST['menuid']) ? $_POST['menuid'] : exit('0');
 		$menuarr = $this->menu_db->get_one(array('id'=>$menuid));
@@ -186,7 +186,7 @@ class index extends admin {
 		}
 		exit;
 	}
-	
+
 	public function public_ajax_delete_panel() {
 		$menuid = isset($_POST['menuid']) ? $_POST['menuid'] : exit('0');
 		$this->panel_db->delete(array('menuid'=>$menuid, 'userid'=>$_SESSION['userid']));
@@ -201,8 +201,8 @@ class index extends admin {
 		pc_base::load_app_func('global');
 		pc_base::load_app_func('admin');
 		define('PC_VERSION', pc_base::load_config('version','pc_version'));
-		define('PC_RELEASE', pc_base::load_config('version','pc_release'));	
-	
+		define('PC_RELEASE', pc_base::load_config('version','pc_release'));
+
 		$admin_username = param::get_cookie('admin_username');
 		$roles = getcache('role','commons');
 		$userid = $_SESSION['userid'];
@@ -247,7 +247,7 @@ class index extends admin {
 		$username = param::get_cookie('admin_username');
 		$maxloginfailedtimes = getcache('common','commons');
 		$maxloginfailedtimes = (int)$maxloginfailedtimes['maxloginfailedtimes'];
-		
+
 		$rtime = $this->times_db->get_one(array('username'=>$username,'isadmin'=>1));
 		if($rtime['times'] > $maxloginfailedtimes-1) {
 			$minute = 60-floor((SYS_TIME-$rtime['logintime'])/60);
@@ -271,7 +271,7 @@ class index extends admin {
 		$_SESSION['lock_screen'] = 0;
 		exit('1');
 	}
-	
+
 	//后台站点地图
 	public function public_map() {
 		 $array = admin::admin_menu(0);
@@ -283,9 +283,9 @@ class index extends admin {
 		 $show_header = true;
 		 include $this->admin_tpl('map');
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 读取盛大接扣获取appid和secretkey
 	 */
 	public function public_snda_status() {
@@ -336,6 +336,46 @@ class index extends admin {
 		}
 		exit(json_encode($menuids));
 	}
+
+
+
+	public function upload(){
+        $uploadfile; // 图片的名字
+        if($_POST['uploadpic']=='上传'){
+            $dest_folder   =  "uploadfile/poster/";   //上传图片保存的路径 图片放在跟你upload.php同级的picture文件夹里
+            $arr=array();   //定义一个数组存放上传图片的名称方便你以后会用的。
+            $count=0;
+            if(!file_exists($dest_folder)){
+                mkdir($dest_folder,700); // 创建文件夹，并给予最高权限
+            }
+            $tp = array("image/gif","image/pjpeg","image/jpeg","image/png");    //检查上传文件是否在允许上传的类型
+            foreach ($_FILES["uploads"]["error"] as $key => $error){
+                if(!in_array($_FILES["uploads"]["type"][$key],$tp)){
+
+                    showmessage(L('文件类型错误'), HTTP_REFERER);
+                    exit;
+                }
+                if($error == UPLOAD_ERR_OK){
+                    $tmp_name = $_FILES["uploads"]["tmp_name"][$key];
+                    $a=explode(".",$_FILES["uploads"]["name"][$key]);  //截取文件名跟后缀
+                    // $prename = substr($a[0],10);   //如果你到底的图片名称不是你所要的你可以用截取字符得到
+                    $prename = $a[0];
+                    $name = date('YmdHis').mt_rand(100,999).".".$a[1];  // 文件的重命名 （日期+随机数+后缀）
+                    $uploadfile = $dest_folder.$name;     // 文件的路径
+                    move_uploaded_file($tmp_name, $uploadfile);
+                    /*$arr[$count]=$uploadfile;
+                    $query="insert into product(name,tupian,pLike) values('$prename','$uploadfile','0')"; // 插入到数据库
+                    $res=mysql_query($query);
+                    if($res)
+                        echo $prename."chenggong<br/>";
+                    echo $uploadfile."<br />";*/
+                    $count++;
+                }
+            }
+            showmessage("总共".$count."文件", HTTP_REFERER);
+
+        }
+    }
 
 }
 ?>
