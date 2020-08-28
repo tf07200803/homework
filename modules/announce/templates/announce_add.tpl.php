@@ -36,10 +36,14 @@ include $this->admin_tpl('header', 'admin');
 		<th><strong><?php echo L('announce_status')?></strong></th>
 		<td><input name="announce[passed]" type="radio" value="1" checked>&nbsp;<?php echo L('pass')?>&nbsp;&nbsp;<input name="announce[passed]" type="radio" value="0">&nbsp;<?php echo L('unpass')?></td>
 	</tr>
-    <tr>
+    <tr id="logolink">
+        <th width="100"><?php echo L('logo')?>：</th>
+        <td><?php echo form::images('announce[imgpath]', 'imgpath', $an_info['imgpath'], 'announce')?></td>
+    </tr>
+    <!--<tr>
         <th><strong>照片上傳</strong></th>
         <td><input type="file" name="file"> </td>
-    </tr>
+    </tr>-->
 	</tbody>
 </table>
 <input type="submit" name="dosubmit" id="dosubmit" value=" <?php echo L('ok')?> " class="dialog">&nbsp;<input type="reset" class="dialog" value=" <?php echo L('clear')?> ">

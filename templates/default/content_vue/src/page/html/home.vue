@@ -30,7 +30,7 @@
 export default {
     data(){
         return{
-            imgpath:'url(' + require('../../../src/images/v5/navbar.png') + ')',
+
             token:global_.token,
             headerInfor:'',
         }

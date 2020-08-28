@@ -8,7 +8,7 @@
 
                 <li @click = "gotoAddress('/phpcmv/phpcmv_home')">首頁</li>
                 <li @click = "gotoAddress('/phpcmv/phpcmv_news')">最新消息</li>
-                <li @click = "gotoAddress('/bog/bog_gamerec')">遊戲紀錄</li>
+                <li @click = "gotoAddress('/phpcmv/phpcmv_news')">遊戲紀錄</li>
                 <li @click = "gotoAddress('/bog/bog_usrcenter')">帳戶中心</li>
 
             </ul>

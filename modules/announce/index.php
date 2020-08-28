@@ -14,8 +14,17 @@ class index {
 	 * 展示公告
 	 */
 	public function show() {
+        $type=isset($_GET['webtype']) ? true : false;
 		if(!isset($_GET['aid'])) {
-			showmessage(L('illegal_operation'));
+
+            if($type){
+                alert::message(1,L('illegal_operation'));
+            }else{
+                showmessage(L('illegal_operation'));
+            }
+
+
+
 		}
 		$_GET['aid'] = intval($_GET['aid']);
 		$where = '';
@@ -27,7 +36,12 @@ class index {
 			$template = $r['show_template'] ? $r['show_template'] : 'show';
 			extract($r);
 			$SEO = seo(get_siteid(), '', $title);
-			include template('announce', $template, $r['style']);
+            if($type){
+                alert::message(1,'',$r);
+            }else{
+                include template('announce', $template, $r['style']);
+            }
+
 		} else {
 			showmessage(L('no_exists'));
 		}

@@ -4,11 +4,14 @@
 
 最新消息
 
-        <ul>
+        <!--<ul>
 
             <li v-for="(infor,index,i) in infor"><img v-bind:src="infor.imgpath" />  {{infor.title}}</li>
 
-        </ul>
+        </ul>-->
+            <news-area v-for="(infor,index,i) in infor" :data="infor"></news-area>
+
+
 
 
         </div>
@@ -20,6 +23,7 @@
     import 'src/style/init.css'
     import $ from "jquery";
     import axios from 'axios';
+    import newsArea from './rec'
 
     export default {
         data(){
@@ -37,7 +41,7 @@
                 var res=response.data;
                 if(res.status==1){
                     self.infor=res.data;
-                    console.log(self.infor)
+                    console.log(JSON.parse(JSON.stringify(self.infor)));
                 }
 
             }).catch(function (err) {
@@ -47,7 +51,7 @@
         },
 
         components:{
-
+            newsArea,
         },
 
         computed:{

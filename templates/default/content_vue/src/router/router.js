@@ -1,6 +1,6 @@
 import App from '../App'
 
-const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
+
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
 const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
 const search = r => require.ensure([], () => r(require('../page/search/search')), 'search')
@@ -49,13 +49,7 @@ const page = r => require.ensure([], () => r(require('../page/html/page')), 'pag
 
 
 
-const bog = r => require.ensure([], () => r(require('../page/bog/index')), 'bog')
-const bog_login = r => require.ensure([], () => r(require('../page/bog/children/login')), 'bog_login')
-const bog_home = r => require.ensure([], () => r(require('../page/bog/children/home')), 'bog_home')
-const bog_gamehall = r => require.ensure([], () => r(require('../page/bog/children/gamehall')), 'bog_gamehall')
-const bog_gamerec = r => require.ensure([], () => r(require('../page/bog/children/gamerec')), 'bog_gamerec')
-const bog_usrcenter = r => require.ensure([], () => r(require('../page/bog/children/usrcenter')), 'bog_usrcenter')
-const bog_game = r => require.ensure([], () => r(require('../page/bog/children/game')), 'bog_game')
+
 
 
 const phpcmv = r => require.ensure([], () => r(require('../page/phpcmv/index')), 'bog')
@@ -63,6 +57,8 @@ const phpcmv_login = r => require.ensure([], () => r(require('../page/phpcmv/chi
 const phpcmv_home = r => require.ensure([], () => r(require('../page/phpcmv/children/home')), 'phpcmv_home')
 const phpcmv_register = r => require.ensure([], () => r(require('../page/phpcmv/children/register')), 'phpcmv_register')
 const phpcmv_news = r => require.ensure([], () => r(require('../page/phpcmv/children/news')), 'phpcmv_news')
+const phpcmv_newsinside = r => require.ensure([], () => r(require('../page/phpcmv/children/newsinside')), 'phpcmv_newsinside')
+
 
 export default [{
     path: '/',
@@ -73,38 +69,7 @@ export default [{
             path: '',
             redirect: '/phpcmv/phpcmv_login'
         },
-        {
-            path: '/bog',
-            component: bog,
-            children: [
-                {
-                    path: 'bog_login', //登入頁
-                    component: bog_login,
-                },
-                {
-                    path: 'bog_home', //首頁
-                    component: bog_home,
-                },
-                {
-                    path: 'bog_gamehall', //首頁
-                    component: bog_gamehall,
-                },
-                {
-                    path: 'bog_gamerec', //首頁
-                    component: bog_gamerec,
-                },
-                {
-                    path: 'bog_usrcenter', //首頁
-                    component: bog_usrcenter,
-                },
-                {
-                    path: '/bog_game/:lotteryid', //首頁
-                    component: bog_game,
-                }
 
-
-            ]
-        },
         {
             path: '/phpcmv',
             component: phpcmv,
@@ -124,15 +89,16 @@ export default [{
                 {
                     path: 'phpcmv_news', //註冊頁
                     component: phpcmv_news,
+                },
+                {
+                    path: '/phpcmv_newsinside/:aid', //註冊頁
+                    component: phpcmv_newsinside,
                 }
 
             ]
         },
         //首页城市列表页
-        {
-            path: '/home',
-            component: home
-        },
+
         {
             path: '/page',
             component: page

@@ -33,7 +33,7 @@ class admin_announce extends admin {
 	 */
 
 	public function imgupload($files){
-        $src = imagecreatefromjpeg($files['file']['tmp_name']);
+        $src = $files['file']['tmp_name'];
 
         // 取得來源圖片長寬
         $src_w = imagesx($src);
@@ -66,8 +66,6 @@ class admin_announce extends admin {
 
 	public function add() {
 		if(isset($_POST['dosubmit'])) {
-
-            $_POST['announce']['imgpath']=$this->imgupload($_FILES);
 			$_POST['announce'] = $this->check($_POST['announce']);
 			if($this->db->insert($_POST['announce'])) showmessage(L('announcement_successful_added'), HTTP_REFERER, '', 'add');
 		} else {
@@ -94,7 +92,6 @@ class admin_announce extends admin {
 		$_GET['aid'] = intval($_GET['aid']);
 		if(!$_GET['aid']) showmessage(L('illegal_operation'));
 		if(isset($_POST['dosubmit'])) {
-            $_POST['announce']['imgpath']=$this->imgupload($_FILES);
 			$_POST['announce'] = $this->check($_POST['announce'], 'edit');
 			if($this->db->update($_POST['announce'], array('aid' => $_GET['aid']))) showmessage(L('announced_a'), HTTP_REFERER, '', 'edit');
 		} else {

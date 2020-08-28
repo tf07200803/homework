@@ -43,12 +43,12 @@
         height: 90px;
         position: fixed;
     }
-    .menubg{
+    /*.menubg{
     @include bis('../../images/v5/navbar.png');
     }
     .sprite{
     @include bis('../../images/img/index/sprite.png');
-    }
+    }*/
     .logo{
         background-position: -754px -153px;
         width: 150px;
