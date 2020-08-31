@@ -361,8 +361,16 @@ class index extends admin {
                     // $prename = substr($a[0],10);   //如果你到底的图片名称不是你所要的你可以用截取字符得到
                     $prename = $a[0];
                     $name = date('YmdHis').mt_rand(100,999).".".$a[1];  // 文件的重命名 （日期+随机数+后缀）
+
+                    $path = "uploadfile/poster/".date("Ymd",time());
+                    if (!is_dir($path)){ //判断目录是否存在 不存在就创建
+                        mkdir($path,0777,true);
+                    }
+
+                    $imageSrc=  $path."/". $name;  //图片名字
+
                     $uploadfile = $dest_folder.$name;     // 文件的路径
-                    move_uploaded_file($tmp_name, $uploadfile);
+                    move_uploaded_file($tmp_name, $imageSrc);
                     /*$arr[$count]=$uploadfile;
                     $query="insert into product(name,tupian,pLike) values('$prename','$uploadfile','0')"; // 插入到数据库
                     $res=mysql_query($query);
@@ -376,6 +384,32 @@ class index extends admin {
 
         }
     }
+
+
+    public function uploadbase64(){
+
+        $image=$_POST['code'];
+        $imageName = "25220_".date("His",time())."_".rand(1111,9999).'.png';
+        if (strstr($image,",")){
+            $image = explode(',',$image);
+            $image = $image[1];
+        }
+
+        $path = "uploadfile/poster/".date("Ymd",time());
+        if (!is_dir($path)){ //判断目录是否存在 不存在就创建
+            mkdir($path,0777,true);
+        }
+        $imageSrc=  $path."/". $imageName;  //图片名字
+
+        $r = file_put_contents( $imageSrc, base64_decode($image));//返回的是字节数
+        if (!$r) {
+            showmessage("图片生成失败", HTTP_REFERER);
+        }else{
+            showmessage("图片生成成功", HTTP_REFERER);
+        }
+
+
+	}
 
 }
 ?>

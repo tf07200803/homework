@@ -3,22 +3,25 @@
 <script language="JavaScript" type="text/javascript" src="<?php echo JS_PATH?>swfupload/swfupload.js"></script>
 <script language="JavaScript" type="text/javascript" src="<?php echo JS_PATH?>swfupload/fileprogress.js"></script>
 <script language="JavaScript" type="text/javascript" src="<?php echo JS_PATH?>swfupload/handlers.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?php echo JS_PATH?>swfupload/fabric.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?php echo JS_PATH?>swfupload/exif.js"></script>
 <script type="text/javascript">
 <?php echo initupload($_GET['module'],$_GET['catid'],$args,$this->userid,$this->groupid,$this->isadmin,$userid_flash)?>
 </script>
 <div class="pad-10">
     <div class="col-tab">
         <ul class="tabBut cu-li">
-            <li id="tab_swf_1" <?php echo $tab_status?> onclick="SwapTab('swf','on','',6,1);"><?php echo L('upload_attachment')?></li>
-            <li id="tab_swf_2" onclick="SwapTab('swf','on','',6,2);"><?php echo L('net_file')?></li>
+            <li id="tab_swf_1" <?php echo $tab_status?> onclick="SwapTab('swf','on','',7,1);"><?php echo L('upload_attachment')?></li>
+            <li id="tab_swf_2" onclick="SwapTab('swf','on','',7,2);"><?php echo L('net_file')?></li>
             <?php if($allowupload && $this->admin_username && $_SESSION['userid']) {?>
-            <li id="tab_swf_3" onclick="SwapTab('swf','on','',6,3);set_iframe('album_list','index.php?m=attachment&c=attachments&a=album_load&args=<?php echo $args?>');"><?php echo L('gallery')?></li>
-            <li id="tab_swf_4" onclick="SwapTab('swf','on','',6,4);set_iframe('album_dir','index.php?m=attachment&c=attachments&a=album_dir&args=<?php echo $args?>');"><?php echo L('directory_browse')?></li>
+            <li id="tab_swf_3" onclick="SwapTab('swf','on','',7,3);set_iframe('album_list','index.php?m=attachment&c=attachments&a=album_load&args=<?php echo $args?>');"><?php echo L('gallery')?></li>
+            <li id="tab_swf_4" onclick="SwapTab('swf','on','',7,4);set_iframe('album_dir','index.php?m=attachment&c=attachments&a=album_dir&args=<?php echo $args?>');"><?php echo L('directory_browse')?></li>
             <?php }?>
             <?php if($att_not_used!='') {?>
-            <li id="tab_swf_5" class="on icon" onclick="SwapTab('swf','on','',6,5);"><?php echo L('att_not_used')?></li>
+            <li id="tab_swf_5" class="on icon" onclick="SwapTab('swf','on','',7,5);"><?php echo L('att_not_used')?></li>
             <?php }?>
-            <li id="tab_swf_6" onclick="SwapTab('swf','on','',6,6);">上傳圖片</li>
+            <li id="tab_swf_6" onclick="SwapTab('swf','on','',7,6);">上傳圖片</li>
+            <li id="tab_swf_7" onclick="SwapTab('swf','on','',7,7);">base64</li>
         </ul>
          <div id="div_swf_1" class="content pad-10 <?php echo $div_status?>">
         	<div>
@@ -77,6 +80,21 @@
                 <input type="submit" id="btupload" name="uploadpic" value="上传">
             </form>
         </div>
+
+        <div id="div_swf_7" class="contentList pad-10 hidden">
+            <form method="post" action="?m=admin&c=index&a=uploadbase64" enctype="multipart/form-data" id="baseform">
+
+                <input id="imageInput" type="file" name="myPhoto" onchange="loadImageFile();" />
+                <div class="setbase" style="padding: 10px; border: 1px solid #cccccc; margin: 20px;"><canvas id="c" width="300" height="225"></canvas></div>
+                <input type="hidden" name="code" id="code">
+                <input type="button" id="btupload" name="uploadpic" value="上传" onclick="base64upload()">
+                <div id="picurl"></div>
+
+            </form>
+
+        </div>
+
+
 
     <div id="att-status" class="hidden"></div>
      <div id="att-status-del" class="hidden"></div>
@@ -150,5 +168,126 @@ function album_cancel(obj,id,source){
 		$('#att-name').append('|'+filename);
 	}
 }
+var iosimg=false;
+var canvas;
+function composite(url){
+    canvas = this.__canvas = new fabric.Canvas('c',{backgroundColor : "#000"});
+    canvas.on({
+        /*'object:moving': function(e) {
+          e.target.opacity = 0.5;
+        },
+        'object:modified': function(e) {
+          e.target.opacity = 1;
+        }*/
+    });
+
+    fabric.Image.fromURL(url, function(img) {
+
+        composite_img=img
+        imgurl=url
+
+
+        img.originX= 'center'
+        img.originY= 'center'
+
+        if(iosimg){
+            img.angle=90
+            img.scaleY= 300 / img.height
+            img.scaleX= img.scaleY
+        }else{
+            img.scaleX= 300 / img.width
+            img.scaleY= img.scaleX
+        }
+        img.left=300/2
+        img.top=225/2
+        canvas.add(img)
+    })
+}
+
+
+function base64upload(){
+    var dataURL = canvas.toDataURL("image/png");
+    /*$.ajax({
+        url: "index.php?m=admin&c=index&a=uploadbase64",
+        data: {code: dataURL},
+        type: "POST",
+        dataType: "json",
+        success: function(data) {
+            console.log(data)
+        }
+    });
+    var img = $('<img id="dynamic" width="100%">');
+    img.attr('src', dataURL);
+    img.appendTo('#picurl');*/
+
+    $("#code").val(dataURL)
+    $("#baseform").submit()
+}
+
+
 </script>
+
+    <script type="text/javascript">
+
+        var loadImageFile = (function() {
+            if (window.FileReader) {
+                var oPreviewImg = null,
+                    oFReader = new window.FileReader(),
+                    rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+                oFReader.onload = function(oFREvent) {
+                    if (!oPreviewImg) {
+
+                    }
+                    // oPreviewImg.src = oFREvent.target.result;
+                    composite(oFREvent.target.result)
+                };
+
+                return function() {
+                    var aFiles = document.getElementById("imageInput").files;
+                    if (aFiles.length === 0) {
+                        return;
+                    }
+                    if (!rFilter.test(aFiles[0].type)) {
+                        alert("You must select a valid image file!");
+                        return;
+                    }
+                    oFReader.readAsDataURL(aFiles[0]);
+
+                    var _file = aFiles[0];
+
+                    EXIF.getData(_file, function(){
+                        var _dataTxt = EXIF.pretty(this);
+                        var _dataJson = JSON.stringify(EXIF.getAllTags(this));
+                        var _orientation = EXIF.getTag(this, 'Orientation');
+
+
+                        if (_orientation == 3) {
+
+                        } else if (_orientation == 6) {//IPHONE
+                            iosimg=true
+                        } else if (_orientation == 8) {
+
+                        };
+
+
+
+                    });
+                }
+
+            }
+            if (navigator.appName === "Microsoft Internet Explorer") {
+                return function() {
+                    alert(document.getElementById("imageInput").value);
+                    document.getElementById("imagePreview").filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = document.getElementById("imageInput").value;
+
+                }
+            }
+
+
+
+        })();
+    </script>
+
+
 </html>
