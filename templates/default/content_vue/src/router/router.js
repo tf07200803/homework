@@ -58,6 +58,13 @@ const phpcmv_home = r => require.ensure([], () => r(require('../page/phpcmv/chil
 const phpcmv_register = r => require.ensure([], () => r(require('../page/phpcmv/children/register')), 'phpcmv_register')
 const phpcmv_news = r => require.ensure([], () => r(require('../page/phpcmv/children/news')), 'phpcmv_news')
 const phpcmv_newsinside = r => require.ensure([], () => r(require('../page/phpcmv/children/newsinside')), 'phpcmv_newsinside')
+const phpcmv_forget = r => require.ensure([], () => r(require('../page/phpcmv/children/forget')), 'phpcmv_forget')
+const phpcmv_skill = r => require.ensure([], () => r(require('../page/phpcmv/children/skill')), 'phpcmv_skill')
+const phpcmv_storage = r => require.ensure([], () => r(require('../page/phpcmv/children/children/storage')), 'phpcmv_storage')
+const phpcmv_direactives = r => require.ensure([], () => r(require('../page/phpcmv/children/children/direactives')), 'phpcmv_direactives')
+const phpcmv_components = r => require.ensure([], () => r(require('../page/phpcmv/children/children/components')), 'phpcmv_components')
+const phpcmv_normal = r => require.ensure([], () => r(require('../page/phpcmv/children/children/normal')), 'phpcmv_normal')
+
 
 
 export default [{
@@ -93,7 +100,34 @@ export default [{
                 {
                     path: '/phpcmv_newsinside/:aid', //註冊頁
                     component: phpcmv_newsinside,
-                }
+                },
+                {
+                    path: 'phpcmv_forget', //註冊頁
+                    component: phpcmv_forget,
+                },
+                {
+                    path: 'phpcmv_skill', //技術頁
+                    component: phpcmv_skill,
+                    children: [
+                        {
+                        path: 'phpcmv_storage', //痊癒變數
+                        component: phpcmv_storage,
+                        },
+                        {
+                            path: 'phpcmv_direactives', //痊癒變數
+                            component: phpcmv_direactives,
+                        },
+                        {
+                            path: 'phpcmv_components', //痊癒變數
+                            component: phpcmv_components,
+                        },
+                        {
+                            path: 'phpcmv_normal', //痊癒變數
+                            component: phpcmv_normal,
+                        },
+
+                        ]
+                },
 
             ]
         },

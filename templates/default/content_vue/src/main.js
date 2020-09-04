@@ -60,3 +60,21 @@ Vue.prototype.Storage = function () {
     };
 }
 
+
+
+Vue.prototype.blogName = '我是放在main.js 裡的Vue.prototype.blogName';
+/*Vue.directive('focus', {
+    inserted: function (el) {
+        el.focus()
+    }
+})*/
+
+Vue.component('my-checkbox', {
+    template: '<div class="checkbox-wrapper" @click="check"><div :class="{ checkbox: true, checked: checked }"></div><div class="title">{{ checked }}</div></div>',
+    data() {
+        return { checked: false, title: 'Check me' }
+    },
+    methods: {
+        check() { this.checked = !this.checked; }
+    }
+});

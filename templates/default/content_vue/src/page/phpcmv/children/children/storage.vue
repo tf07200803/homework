@@ -1,19 +1,11 @@
 <template>
-    <div style="height: 100%;">
+    <div>
         <div class="container">
 
 
 
-            <ul>
 
-                <li @click = "gotoAddress('/phpcmv/phpcmv_home')">首頁</li>
-                <li @click = "gotoAddress('/phpcmv/phpcmv_news')">最新消息</li>
-                <li @click = "gotoAddress('/phpcmv/phpcmv_skill/phpcmv_storage')">遊戲紀錄</li>
-                <li @click = "gotoAddress('/bog/bog_usrcenter')">帳戶中心</li>
-
-            </ul>
-
-
+                {{blogName}}
 
 
 
@@ -26,14 +18,17 @@
     import 'src/style/init.css'
     import $ from "jquery";
     import axios from 'axios';
+
     export default {
         data(){
             return{
-
+                infor:'',
             }
         },
 
         mounted(){
+
+            console.log(this.blogName)
 
         },
 
@@ -46,11 +41,12 @@
         },
 
         methods:{
-            gotoAddress(path){
-                this.$router.push(path)
-            }
 
         },
+        directives: {
+
+        },
+
         /*created时，可用data和prop中的数据。
     computed的属性，当在mounted或者dom中使用到时，才会属性的执行代码。
     最后是mouted，可使用前面的数据，并且此时才可以操作dom。
@@ -66,20 +62,8 @@
 
 <style lang="scss" scoped>
     @import 'src/style/mixin';
-    ul{
-        height: 100%;
-    }
+
     li{
-        color:#fff;
-        width: 25%;
-        float: left;
-        text-align: center;
-        font-size: 18px;
-        display: flex;
-        min-height: 100%;
-        align-items: center;
-        justify-content: center;
+        border-bottom: 2px solid #0F0F0F;
     }
-
-
 </style>
