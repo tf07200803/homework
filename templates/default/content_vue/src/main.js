@@ -5,6 +5,10 @@ import store from './store/'
 import {routerMode} from './config/env'
 import './config/rem'
 import FastClick from 'fastclick'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue)
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {

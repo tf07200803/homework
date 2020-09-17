@@ -3,6 +3,9 @@ body,html{
     height: 100%;
     padding: 0;
     margin: 0;
+    font-size: 13px;
+    background-image: url("../images/bg.png");
+
 }
 #app{
     width: 100%;
@@ -18,7 +21,7 @@ body,html{
     height: 100%;
 }
 
-.container{
+._container{
     width: 100%;
     position: relative;
     height: 100%;
@@ -28,4 +31,64 @@ ul{
     padding: 0;
     margin: 0;
     list-style: none;
+}
+
+
+.pagecontent{
+    width: 100%;
+    position: relative;
+    background-color: #ededed;
+    margin: auto;
+    border-radius: 12px;
+    border:1px solid #ccc;
+    padding: 25px;
+    box-sizing: border-box;
+    max-width: 1000px;
+}
+
+input[type=text] {
+
+    font-size: 16px;
+    line-height: 16px;
+    background: none;
+    background-color: #fff;
+    border:1px solid #ccc;
+    height: 36px;
+}
+input[type=password] {
+
+    font-size: 16px;
+    line-height: 16px;
+    background: none;
+    background-color: #fff;
+    border:1px solid #ccc;
+    height: 36px;
+}
+
+input[type=submit]{
+    height: 36px;
+    width: 85px;
+    background: none;
+    background-color: #990000;
+    border: none;
+    color:#fff;
+}
+
+input[type=submit]:hover{
+    background-color: rgba(153, 0, 0, 0.75);
+}
+
+input[type=button]{
+    height: 36px;
+    width: 85px;
+    background: none;
+    background-color: #0b3b8c;
+    border: none;
+    color:#fff;
+}
+.titletxt{
+    font-size: 22px;
+}
+label{
+    margin-bottom: 0;
 }

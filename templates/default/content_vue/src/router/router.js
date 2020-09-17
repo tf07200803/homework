@@ -66,6 +66,12 @@ const phpcmv_normal = r => require.ensure([], () => r(require('../page/phpcmv/ch
 
 
 
+const fabia = r => require.ensure([], () => r(require('../page/fabia/index')), 'fabia')
+const fabia_login = r => require.ensure([], () => r(require('../page/fabia/children/login')), 'fabia_login')
+const fabia_register = r => require.ensure([], () => r(require('../page/fabia/children/register')), 'fabia_register')
+const fabia_home = r => require.ensure([], () => r(require('../page/fabia/children/home')), 'fabia_home')
+
+
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -73,7 +79,27 @@ export default [{
         //地址为空时跳转home页面
         {
             path: '',
-            redirect: '/phpcmv/phpcmv_login'
+            redirect: '/fabia/fabia_login'
+        },
+
+        {
+            path: '/fabia',
+            component: fabia,
+            children: [
+                {
+                    path: 'fabia_login', //登入頁
+                    component: fabia_login,
+                },
+                {
+                    path: 'fabia_register', //登入頁
+                    component: fabia_register,
+                },
+                {
+                    path: 'fabia_home', //登入頁
+                    component: fabia_home,
+                },
+
+            ]
         },
 
         {
