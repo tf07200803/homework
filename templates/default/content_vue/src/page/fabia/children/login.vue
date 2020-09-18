@@ -35,6 +35,14 @@
 
             </div>
 
+            <div class="regbtn mt-2 text-right">
+
+
+                <a href="javascript:void(0)" @click = "sendClick()">寄送MAIL</a>
+
+
+            </div>
+
 
         </div>
     </div>
@@ -55,7 +63,8 @@
                 vvcc_id:'',
                 vvcc_src:'',
                 cookietime:true,
-                loginpath:'index.php?m=member&c=index&a=login'
+                loginpath:'index.php?m=member&c=index&a=login',
+                sendpath:'index.php?m=member&c=index&a=sendemail'
             }
         },
 
@@ -89,6 +98,7 @@
                 var self=this
 
                     var bodyFormData = new FormData();
+                    bodyFormData.set('webname', 'fabia');
                     bodyFormData.set('webtype', 'vue');
                     bodyFormData.set('username', self.username);
                     bodyFormData.set('password', self.password);
@@ -118,6 +128,22 @@
 
 
 
+            },
+            sendClick(){
+                var self=this
+                axios.get(this.sendpath, {
+
+
+                }).then(function (response) {
+
+                    console.log(response.data)
+
+
+                }).catch(function (err) {
+
+                    console.log(err);
+
+                });
             },
 
             randomCode(){

@@ -18,7 +18,7 @@ class foreground {
 	 */
 	final public function check_member() {
 		$phpcms_auth = param::get_cookie('auth');
-		if(ROUTE_M =='member' && ROUTE_C =='index' && in_array(ROUTE_A, array('login', 'register', 'mini','send_newmail'))) {
+		if(ROUTE_M =='member' && ROUTE_C =='index' && in_array(ROUTE_A, array('login', 'register', 'mini','send_newmail','sendemail'))) {
 			if ($phpcms_auth && ROUTE_A != 'mini') {
                 $cookies = param::get_cookie('_username');
                 if($cookies!=$_POST['username']){

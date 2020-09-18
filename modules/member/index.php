@@ -33,8 +33,38 @@ class index extends foreground {
 		if($type){
 			alert::message(1,'',$memberinfo);
 		}else{
-		include template('member', 'index');
+			include template('member', 'index');
+		}
+
 	}
+
+	public function sendemail(){
+
+        require_once 'phpmailer/class.phpmailer.php';
+        $mail = new PHPMailer();
+        $mail->SMTPSecure = "ssl";
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465;
+        $mail->CharSet = "utf-8";    //信件編碼
+        $mail->Username = "tommy19830720@gmail.com";        //帳號，例:example@gmail.com
+        $mail->Password = "0955076199";        //密碼
+        $mail->IsSMTP();
+        $mail->SMTPAuth = true;
+        $mail->SMTPDebug  = 1;
+        $mail->Encoding = "base64";
+        $mail->IsHTML(true);     //內容HTML格式
+        $mail->From = "tommy19830720@gmail.com";        //寄件者信箱
+        $mail->FromName = "tommy";    //寄信者姓名
+        $mail->Subject = "公共電視台帳號驗證";     //信件主旨
+        $mail->Body = "請點選此網址驗證您的帳號";        //信件內容
+        $mail->AddAddress("tf07200803@gmail.com");   //收件者信箱
+        if($mail->Send()){
+            echo "寄信成功";
+        }else{
+            echo "寄信失敗";
+            //echo "Mailer Error: " . $mail->ErrorInfo;
+        }
+
 
 	}
 
@@ -651,6 +681,7 @@ class index extends foreground {
 
 	public function login() {
         $type=isset($_POST['webtype']) ? true : false;
+        $webname=isset($_POST['webname']) ? true : false;
 		$this->_session_start();
 		//获取用户siteid
 		$siteid = isset($_REQUEST['siteid']) && trim($_REQUEST['siteid']) ? intval($_REQUEST['siteid']) : 1;
@@ -769,6 +800,14 @@ class index extends foreground {
 				}
 				$this->times_db->delete(array('username'=>$username));
 			}
+
+
+            if($webname){
+                if($r['yes']==0){
+                    alert::message(-1,L('您尚未email驗證'));
+                }
+            }
+
 
 			//如果用户被锁定
 			if($r['islock']) {
