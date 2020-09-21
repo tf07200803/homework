@@ -35,13 +35,13 @@
 
             </div>
 
-            <div class="regbtn mt-2 text-right">
+            <!--<div class="regbtn mt-2 text-right">
 
 
                 <a href="javascript:void(0)" @click = "sendClick()">寄送MAIL</a>
 
 
-            </div>
+            </div>-->
 
 
         </div>

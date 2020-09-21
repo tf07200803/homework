@@ -143,6 +143,7 @@
                 var self=this;
                 var bodyFormData = new FormData();
                 bodyFormData.set('webtype', 'vue');
+                bodyFormData.set('webname', 'fabia');
                 bodyFormData.set('username', self.username);
                 bodyFormData.set('password', self.password);
                 bodyFormData.set('pwdconfirm', self.pwdconfirm);
@@ -161,7 +162,7 @@
                         if(res.status==-1){
                             alert(res.msg)
                         }else if(res.status==1){
-                            self.$router.push('/fabia/fabia_home');
+                            self.$router.push('/fabia_gmail/success');
                         }
                         console.log(res)
                     })

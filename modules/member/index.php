@@ -38,7 +38,10 @@ class index extends foreground {
 
 	}
 
-	public function sendemail(){
+	public function sendemail($_email,$name,$code){
+
+
+
 
         require_once 'phpmailer/class.phpmailer.php';
         $mail = new PHPMailer();
@@ -56,13 +59,12 @@ class index extends foreground {
         $mail->From = "tommy19830720@gmail.com";        //寄件者信箱
         $mail->FromName = "tommy";    //寄信者姓名
         $mail->Subject = "公共電視台帳號驗證";     //信件主旨
-        $mail->Body = "請點選此網址驗證您的帳號";        //信件內容
-        $mail->AddAddress("tf07200803@gmail.com");   //收件者信箱
+        $mail->Body = $name."您好~請點選此網址驗證您的帳號".APP_PATH.'#/fabia_gmail/'.$code;        //信件內容
+        $mail->AddAddress($_email);   //收件者信箱
         if($mail->Send()){
-            echo "寄信成功";
+            //echo "寄信成功";
         }else{
-            echo "寄信失敗";
-            //echo "Mailer Error: " . $mail->ErrorInfo;
+            //echo "寄信失敗";
         }
 
 
@@ -71,6 +73,7 @@ class index extends foreground {
 	public function register() {
 
 		$type=isset($_POST['webtype']) ? true : false;
+        $webname=isset($_POST['webname']) ? true : false;
 
 		$this->_session_start();
 		//获取用户siteid
@@ -196,12 +199,17 @@ class index extends foreground {
 
 				}
 
+
 				if($status > 0) {
 					$userinfo['phpssouid'] = $status;
 					//传入phpsso为明文密码，加密后存入phpcms_v9
 					$password = $userinfo['password'];
 					$userinfo['password'] = password($userinfo['password'], $userinfo['encrypt']);
 					$userid = $this->db->insert($userinfo, 1);
+                    $timestamp = time() ;
+                    $timecode=base64_encode($timestamp);
+                    param::set_cookie('timecode', $timecode, $timestamp+600);
+
 					if($member_setting['choosemodel']) {	//如果开启选择模型
 						$user_model_info['userid'] = $userid;
 						//插入会员模型数据
@@ -209,7 +217,7 @@ class index extends foreground {
 						$this->db->insert($user_model_info);
 					}
 
-					if($userid > 0) {
+					if($userid > 0 && !$webname) {
 						//执行登陆操作
 						if(!$cookietime) $get_cookietime = param::get_cookie('cookietime');
 						$_cookietime = $cookietime ? intval($cookietime) : ($get_cookietime ? $get_cookietime : 0);
@@ -250,6 +258,9 @@ class index extends foreground {
 						//如果不需要邮箱认证、直接登录其他应用
 						$synloginstr = $this->client->ps_member_synlogin($userinfo['phpssouid']);
                         if($type){
+							if($webname){
+								$this->sendemail($userinfo['email'],$userinfo['nickname'],$timecode);
+							}
                             alert::message(1,L('operation_success'));
                         }else{
 						showmessage(L('operation_success').$synloginstr, 'index.php?m=member&c=index&a=init');
