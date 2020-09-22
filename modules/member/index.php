@@ -38,7 +38,7 @@ class index extends foreground {
 
 	}
 
-	public function sendemail($_email,$name,$code){
+	public function sendgmail($_email,$name,$code){
 
 
 
@@ -69,6 +69,23 @@ class index extends foreground {
 
 
 	}
+
+
+
+    public function checkgmail(){
+        $code = isset($_GET['gid']) ? trim($_GET['gid']) : '';
+
+        if($code==param::get_cookie('timecode')){
+            $userinfo=param::get_cookie('timeuser');
+            $res=json_decode($userinfo,true);
+            $this->login($res['username'],$res['password']);
+
+		}else{
+            alert::message(-1,L('驗證碼過期'));
+		}
+
+	}
+
 
 	public function register() {
 
@@ -201,14 +218,16 @@ class index extends foreground {
 
 
 				if($status > 0) {
+                    $timestamp = time() ;
+                    $timecode=base64_encode($timestamp);
+                    param::set_cookie('timecode', $timecode, $timestamp+600);
+                    param::set_cookie('timeuser', json_encode($userinfo), $timestamp+600);
 					$userinfo['phpssouid'] = $status;
 					//传入phpsso为明文密码，加密后存入phpcms_v9
 					$password = $userinfo['password'];
 					$userinfo['password'] = password($userinfo['password'], $userinfo['encrypt']);
 					$userid = $this->db->insert($userinfo, 1);
-                    $timestamp = time() ;
-                    $timecode=base64_encode($timestamp);
-                    param::set_cookie('timecode', $timecode, $timestamp+600);
+
 
 					if($member_setting['choosemodel']) {	//如果开启选择模型
 						$user_model_info['userid'] = $userid;
@@ -259,7 +278,7 @@ class index extends foreground {
 						$synloginstr = $this->client->ps_member_synlogin($userinfo['phpssouid']);
                         if($type){
 							if($webname){
-								$this->sendemail($userinfo['email'],$userinfo['nickname'],$timecode);
+								$this->sendgmail($userinfo['email'],$userinfo['nickname'],$timecode);
 							}
                             alert::message(1,L('operation_success'));
                         }else{
@@ -690,7 +709,9 @@ class index extends foreground {
 		}
 	}
 
-	public function login() {
+	public function login($user='', $pwd='') {
+
+
         $type=isset($_POST['webtype']) ? true : false;
         $webname=isset($_POST['webname']) ? true : false;
 		$this->_session_start();
@@ -701,7 +722,7 @@ class index extends foreground {
 		   define('SITEID', $siteid);
 		}
 
-		if(isset($_POST['dosubmit'])) {
+		if(isset($_POST['dosubmit']) || $pwd!='') {
 			if(empty($_SESSION['connectid'])) {
 				//判断验证码
 				/*$code = isset($_POST['code']) && trim($_POST['code']) ? trim($_POST['code']) : showmessage(L('input_code'), HTTP_REFERER);
@@ -712,9 +733,17 @@ class index extends foreground {
 				$_SESSION['code'] = '';*/
 			}
 
-			$username = isset($_POST['username']) && is_username($_POST['username']) ? trim($_POST['username']) : showmessage(L('username_empty'), HTTP_REFERER);
-			$password = isset($_POST['password']) && trim($_POST['password']) ? trim($_POST['password']) : showmessage(L('password_empty'), HTTP_REFERER);
-			is_password($_POST['password']) && is_badword($_POST['password'])==false ? trim($_POST['password']) : showmessage(L('password_format_incorrect'), HTTP_REFERER);
+
+
+            if($pwd!=''){
+                $username=$user;
+                $password=$pwd;
+            }else{
+                $username = isset($_POST['username']) && is_username($_POST['username']) ? trim($_POST['username']) : showmessage(L('username_empty'), HTTP_REFERER);
+                $password = isset($_POST['password']) && trim($_POST['password']) ? trim($_POST['password']) : showmessage(L('password_empty'), HTTP_REFERER);
+			}
+
+			is_password($password) && is_badword($password)==false ? trim($password) : showmessage(L('password_format_incorrect'), HTTP_REFERER);
 			$cookietime = intval($_POST['cookietime']);
 			$synloginstr = ''; //同步登陆js代码
 
@@ -759,21 +788,21 @@ class index extends foreground {
 					$synloginstr = $this->client->ps_member_synlogin($r['phpssouid']);
  				} else {
 					if($status == -1) {	//用户不存在
-						if($type){
+						if($type || $pwd!=''){
 							alert::message(-1,L('user_not_exist'));
 						}else{
 						showmessage(L('user_not_exist'), 'index.php?m=member&c=index&a=login');
 						}
 
 					} elseif($status == -2) { //密码错误
-                        if($type){
+                        if($type || $pwd!=''){
                             alert::message(-1,L('password_error'));
                         }else{
 						showmessage(L('password_error'), 'index.php?m=member&c=index&a=login');
                         }
 
 					} else {
-                        if($type){
+                        if($type || $pwd!=''){
                             alert::message(-1,L('login_failure'));
 					} else {
 						showmessage(L('login_failure'), 'index.php?m=member&c=index&a=login');
@@ -813,11 +842,11 @@ class index extends foreground {
 			}
 
 
-            if($webname){
+            /*if($webname){
                 if($r['yes']==0){
                     alert::message(-1,L('您尚未email驗證'));
                 }
-            }
+            }*/
 
 
 			//如果用户被锁定
@@ -875,7 +904,7 @@ class index extends foreground {
 			//param::set_cookie('cookietime', $_cookietime, $cookietime);
 			$forward = isset($_POST['forward']) && !empty($_POST['forward']) ? urldecode($_POST['forward']) : 'index.php?m=member&c=index';
 
-            if($type){
+            if($type || $pwd!=''){
                 alert::message(1,L('login_success'));
             }else{
 			showmessage(L('login_success').$synloginstr, $forward);

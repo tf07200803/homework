@@ -64,7 +64,7 @@
                 vvcc_src:'',
                 cookietime:true,
                 loginpath:'index.php?m=member&c=index&a=login',
-                sendpath:'index.php?m=member&c=index&a=sendemail'
+                sendpath:'index.php?m=member&c=index&a=sendgmail'
             }
         },
 
