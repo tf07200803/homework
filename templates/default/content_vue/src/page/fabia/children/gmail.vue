@@ -67,7 +67,7 @@
                 axios.get(this.gmailpath, {
                 }).then(function (response) {
                     var res=response.data;
-                   
+
                     if(res.status==-1){
                         alert(res.msg)
                         self.$router.push('/fabia/fabia_login');
