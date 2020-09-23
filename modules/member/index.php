@@ -842,11 +842,11 @@ class index extends foreground {
 			}
 
 
-            /*if($webname){
+            if($webname){
                 if($r['yes']==0){
                     alert::message(-1,L('您尚未email驗證'));
                 }
-            }*/
+            }
 
 
 			//如果用户被锁定
@@ -903,6 +903,13 @@ class index extends foreground {
 			param::set_cookie('_nickname', $nickname, $cookietime);
 			//param::set_cookie('cookietime', $_cookietime, $cookietime);
 			$forward = isset($_POST['forward']) && !empty($_POST['forward']) ? urldecode($_POST['forward']) : 'index.php?m=member&c=index';
+
+			if($pwd!=''){
+                $yesarr['yes'] = 1;
+                $this->db->update($yesarr, array('userid'=>$userid));
+                //var_dump($this->db->get_one(array('phpssouid'=>1)));
+
+			}
 
             if($type || $pwd!=''){
                 alert::message(1,L('login_success'));
