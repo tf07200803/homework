@@ -47,22 +47,10 @@
 
 
             var self=this
-            if(this.$route.params.aid=='success'){
-                /*axios.get(this.loginpath, {
-                }).then(function (response) {
-                    var res=response.data;
-                    if(res.status==-1){
-                        self.$router.push('/fabia/fabia_login');
-                    }else if(res.status==1){
-                        self.username=res.data.username;
-                        self.nickname=res.data.nickname;
-                        self.email=res.data.email;
-                    }
+            if(this.$route.params.aid.indexOf('@')!=-1){
+                
+                this.email=this.$route.params.aid;
 
-
-                }).catch(function (err) {
-                    console.log(err);
-                });*/
             }else{
                 axios.get(this.gmailpath, {
                 }).then(function (response) {

@@ -11,7 +11,7 @@
             <div class="row m-0 p-0">
 
                 <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-none d-lg-inline-block d-md-block">姓　　名：</label><input type="text" id="username" name="username" size="36" class="input-text" v-model="username" placeholder="姓　　名"></div>
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-none d-lg-inline-block d-md-block">昵　　称：</label><input type="text" id="nickname" name="nickname" size="36" class="input-text" v-model="nickname" placeholder="昵　　称"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-none d-lg-inline-block d-md-block">電　　話：</label><input type="tel" id="mobile" name="mobile" size="36" class="input-text" v-model="mobile" placeholder="電　　話"></div>
             </div>
             <div class="row m-0 p-0">
 
@@ -64,6 +64,7 @@
                 pwdconfirm:'',
                 email:'',
                 nickname:'',
+                mobile:'',
                 registerpath:'index.php?m=member&c=index&a=register',
                 checkurl:'index.php?m=tommy&c=login&a=public_checkname_ajax',
                 checkemail:'index.php?m=tommy&c=login&a=public_checkemail_ajax',
@@ -149,6 +150,7 @@
                 bodyFormData.set('pwdconfirm', self.pwdconfirm);
                 bodyFormData.set('email', self.email);
                 bodyFormData.set('nickname', self.nickname);
+                bodyFormData.set('mobile', self.mobile);
                 bodyFormData.set('dosubmit', '登录');
 
                 axios({
@@ -162,7 +164,7 @@
                         if(res.status==-1){
                             alert(res.msg)
                         }else if(res.status==1){
-                            self.$router.push('/fabia_gmail/success');
+                            self.$router.push('/fabia_gmail/'+self.email);
                         }
                         console.log(res)
                     })
@@ -191,6 +193,9 @@
     input[type=text] {
         width: 100%;
     }
+    input[type=tel] {
+        width: 100%;
+    }
     input[type=password] {
         width: 100%;
     }
@@ -205,12 +210,18 @@
         input[type=text] {
             width: auto;
         }
+        input[type=tel] {
+            width: auto;
+        }
         input[type=password] {
             width: auto;
         }
     }
     @media (min-width: 1200px) {
         input[type=text] {
+            width: auto;
+        }
+        input[type=tel] {
             width: auto;
         }
         input[type=password] {

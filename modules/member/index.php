@@ -78,7 +78,7 @@ class index extends foreground {
         if($code==param::get_cookie('timecode')){
             $userinfo=param::get_cookie('timeuser');
             $res=json_decode($userinfo,true);
-            $this->login($res['username'],$res['password']);
+            $this->login($res['username'],$res['password'],$res['email']);
 
 		}else{
             alert::message(-1,L('驗證碼過期'));
@@ -139,7 +139,7 @@ class index extends foreground {
 			$userinfo['connectid'] = isset($_SESSION['connectid']) ? $_SESSION['connectid'] : '';
 			$userinfo['from'] = isset($_SESSION['from']) ? $_SESSION['from'] : '';
 			//手机强制验证
-
+            $member_setting[mobile_checktype]='2';
 			if($member_setting[mobile_checktype]=='1'){
 				//取用户手机号
 				$mobile_verify = $_POST['mobile_verify'] ? intval($_POST['mobile_verify']) : '';
@@ -158,10 +158,21 @@ class index extends foreground {
 				$userinfo['mobile'] = isset($_POST['mobile']) ? $_POST['mobile'] : '';
 			}
 			if($userinfo['mobile']!=""){
-				if(!preg_match('/^1([0-9]{10})$/',$userinfo['mobile'])) {
+				/*if(!preg_match('/^1([0-9]{10})$/',$userinfo['mobile'])) {
 					showmessage('请提供正确的手机号码！', HTTP_REFERER);
-				}
-			}
+				}*/
+                if (!preg_match("/^09[0-9]{8}$/", $userinfo['mobile'])) {
+
+                    if($type){
+                    	alert::message(-1,'请提供正确的手机号码');
+                    }else{
+                        showmessage('请提供正确的手机号码！', HTTP_REFERER);
+					}
+
+
+
+                }
+            }
  			unset($_SESSION['connectid'], $_SESSION['from']);
 
 			if($member_setting['enablemailcheck']) {	//是否需要邮件验证
@@ -226,6 +237,7 @@ class index extends foreground {
 					//传入phpsso为明文密码，加密后存入phpcms_v9
 					$password = $userinfo['password'];
 					$userinfo['password'] = password($userinfo['password'], $userinfo['encrypt']);
+
 					$userid = $this->db->insert($userinfo, 1);
 
 
@@ -709,7 +721,7 @@ class index extends foreground {
 		}
 	}
 
-	public function login($user='', $pwd='') {
+	public function login($user='', $pwd='' ,$eml='') {
 
 
         $type=isset($_POST['webtype']) ? true : false;
@@ -738,9 +750,42 @@ class index extends foreground {
             if($pwd!=''){
                 $username=$user;
                 $password=$pwd;
+                $email=$eml;
             }else{
-                $username = isset($_POST['username']) && is_username($_POST['username']) ? trim($_POST['username']) : showmessage(L('username_empty'), HTTP_REFERER);
-                $password = isset($_POST['password']) && trim($_POST['password']) ? trim($_POST['password']) : showmessage(L('password_empty'), HTTP_REFERER);
+            	if(isset($_POST['password']) && trim($_POST['password'])){
+                    $password=trim($_POST['password']);
+				}else{
+            		if($type){
+                        alert::message(-1,L('password_empty'));
+					}else{
+                        showmessage(L('password_empty'), HTTP_REFERER);
+					}
+				}
+
+                if($webname){
+
+                	if(isset($_POST['email']) && is_email($_POST['email'])){
+                        $email=trim($_POST['email']);
+					}else{
+                        if($type){
+                            alert::message(-1,L('email_error'));
+                        }else{
+                            showmessage(L('email_error'), HTTP_REFERER);
+                        }
+					}
+                }else{
+
+                	if(isset($_POST['username']) && is_username($_POST['username'])){
+                        $username=trim($_POST['username']);
+					}else{
+                        if($type){
+                            alert::message(-1,L('username_empty'));
+                        }else{
+                            showmessage(L('username_empty'), HTTP_REFERER);
+                        }
+					}
+
+				}
 			}
 
 			is_password($password) && is_badword($password)==false ? trim($password) : showmessage(L('password_format_incorrect'), HTTP_REFERER);
@@ -749,7 +794,13 @@ class index extends foreground {
 
 			if(pc_base::load_config('system', 'phpsso')) {
 				$this->_init_phpsso();
-				$status = $this->client->ps_member_login($username, $password);
+
+				if($webname){
+                    $status = $this->client->ps_member_login($email, $password,1);
+				}else{
+                    $status = $this->client->ps_member_login($username, $password);
+				}
+
 				$memberinfo = unserialize($status);
 
 				if(isset($memberinfo['uid'])) {

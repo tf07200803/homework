@@ -16,7 +16,7 @@
 
             <div class="row m-0 p-0">
                 <div class="input col-lg-4 col-md-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-1 mb-3 mb-lg-0">
-                    <input type="text" id="username" name="username" size="22" class="input-text col-lg-12" v-model="username" placeholder="email">
+                    <input type="text" id="email" name="email" size="22" class="input-text col-lg-12" v-model="email" placeholder="email">
                 </div>
                 <div class="input col-lg-4 col-md-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-1 mb-3 mb-lg-0">
                     <input type="password" id="password" name="password" size="22" class="input-text col-lg-12" v-model="password" placeholder="password">
@@ -58,6 +58,7 @@
             return{
                 username:'',
                 password:'',
+                email:'',
                 code:'',
                 vvcc_codelen:'',
                 vvcc_id:'',
@@ -101,6 +102,7 @@
                     bodyFormData.set('webname', 'fabia');
                     bodyFormData.set('webtype', 'vue');
                     bodyFormData.set('username', self.username);
+                    bodyFormData.set('email', self.email);
                     bodyFormData.set('password', self.password);
                     bodyFormData.set('code', '12345');
                     bodyFormData.set('dosubmit', '登录');
