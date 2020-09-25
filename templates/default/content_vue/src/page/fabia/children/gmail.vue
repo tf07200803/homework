@@ -48,7 +48,7 @@
 
             var self=this
             if(this.$route.params.aid.indexOf('@')!=-1){
-                
+
                 this.email=this.$route.params.aid;
 
             }else{
