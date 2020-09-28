@@ -9,30 +9,45 @@
 
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">學校全名：</label><input type="text" id="school_name" name="school_name" size="36" class="input-text" v-model="username" placeholder="學校全名"></div>
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系所全名：</label><input type="text" id="depart_name" name="depart_name" size="36" class="input-text" v-model="username" placeholder="系所全名"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">學校全名：</label><input type="text" id="school_name" name="school_name" size="36" class="input-text col-12 col-lg-12" v-model="school_name" placeholder="學校全名"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系所全名：</label><input type="text" id="depart_name" name="depart_name" size="36" class="input-text col-12 col-lg-12" v-model="depart_name" placeholder="系所全名"></div>
             </div>
 
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系主任/所長：</label><input type="text" id="depart_boss" name="depart_boss" size="36" class="input-text" v-model="username" placeholder="系主任/所長"></div>
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系所聯絡人：</label><input type="text" id="depart_contect" name="depart_contect" size="36" class="input-text" v-model="username" placeholder="系所聯絡人"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系主任/所長：</label><input type="text" id="depart_boss" name="depart_boss" size="36" class="input-text col-12 col-lg-12" v-model="depart_boss" placeholder="系主任/所長"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系所聯絡人：</label><input type="text" id="depart_contect" name="depart_contect" size="36" class="input-text col-12 col-lg-12" v-model="depart_contect" placeholder="系所聯絡人"></div>
             </div>
 
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3">
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3 city-selector-set">
                     <label class="d-block">系所地址：</label>
 
-                    <div class="col-lg-12 col-12">
-                        <input type="tel" id="address_code" name="address_code" size="36" class="input-text col-12 col-lg-4" v-model="username" placeholder="郵遞區號">
-                        <select id="address_city" name="address_city" class="col-6 col-lg-2">
-                            <option value="0">系所地址/縣市</option>
+
+
+                        <select id="address_city" name="address_city" class="col-6 col-lg-2 mb-lg-0 mb-md-1 mb-sm-1 mb-1 address_city">
+
                         </select>
-                        <select id="address_country" name="address_country" class="col-6 col-lg-2">
-                            <option value="0">系所地址/區鎮</option>
+                        <select id="address_country" name="address_country" class="col-6 col-lg-2 mb-lg-0 mb-md-1 mb-sm-1 mb-1 address_country">
+
                         </select>
-                        <input type="tel" id="address_address" name="address_address" size="36" class="input-text col-12 col-lg-4" v-model="username" placeholder="系所地址/地址">
+                    <!--<div role="tw-city-selector" data-has-zipcode></div>-->
+                        <input type="text" id="address_address" name="address_address" size="36" class="input-text col-10 col-lg-6" v-model="address_address" placeholder="系所地址/地址">
+                        <input type="tel" id="address_code" name="address_code" size="36" class="input-text col-2 col-lg-2 mb-lg-0 mb-md-1 mb-sm-1 mb-1 address_code" placeholder="郵遞區號">
+
+                </div>
+
+            </div>
+
+            <div class="row m-0 p-0">
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3">
+                    <label class="d-block">系所電話：</label>
+
+                    <div class="row m-0 p-0">
+                        <input type="tel" id="depart_code" name="depart_code" size="36" class="input-text col-6 col-lg-2 order-0 order-lg-0 mb-md-1 mb-sm-1 mb-1 mb-lg-0" v-model="depart_code" placeholder="區碼">
+                        <input type="tel" id="depart_tel" name="depart_tel" size="36" class="input-text col-12 col-lg-8 order-2 order-lg-1 mb-md-0 mb-sm-1 mb-1 mb-lg-0" v-model="depart_tel" placeholder="電話">
+                        <input type="tel" id="depart_ext" name="depart_ext" size="36" class="input-text col-6 col-lg-2 order-1 order-lg-2 mb-md-1 mb-sm-1 mb-1 mb-lg-0" v-model="depart_ext" placeholder="分機">
                     </div>
 
                 </div>
@@ -41,14 +56,36 @@
 
             <div class="row m-0 p-0">
 
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-1 mb-1">
+                    <label class="d-block">聯絡人：</label>
+
+                    <div class="row m-0 p-1 bg-gray">
+                        <input type="text" id="add_name" name="add_name" size="36" class="input-text col-6 col-lg-3 mb-md-1 mb-sm-1 mb-1 mb-lg-0"  placeholder="姓名">
+                        <input type="tel" id="add_tel" name="add_tel" size="36" class="input-text col-6 col-lg-3 mb-md-0 mb-sm-1 mb-1 mb-lg-0"  placeholder="電話">
+                        <input type="text" id="add_email" name="add_email" size="36" class="input-text col-12 col-lg-6"  placeholder="email">
+                    </div>
+
+
+
+
+                </div>
                 <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3">
-                    <label class="d-block">系所電話：</label>
-                    <input type="tel" id="depart_code" name="depart_code" size="36" class="input-text" v-model="username" placeholder="區碼">
-                    <input type="tel" id="depart_tel" name="depart_tel" size="36" class="input-text" v-model="username" placeholder="電話">
-                    <input type="tel" id="depart_ext" name="depart_ext" size="36" class="input-text" v-model="username" placeholder="分機">
+                    <label class="d-block text-right addbtn">新增</label>
+                </div>
+
+
+            </div>
+
+            <div class="row m-0 p-0 justify-content-center">
+                <div class="input col-lg-3 col-md-12  d-inline-block">
+                    <input type="submit" name="dosubmit" id="dosubmit" value="送出" @click="loginClick()" class="w-100">
                 </div>
 
             </div>
+
+
+
+
 
 
         </div>
@@ -60,11 +97,23 @@
     import 'src/style/init.css'
     import $ from "jquery";
     import axios from 'axios';
+    import TwCitySelector  from 'src/plugins/tw-city-selector.js';
 
     export default {
         data(){
             return{
                 loginpath:'index.php?m=member&c=index&a=init&webtype=vue',
+                school_name:'',
+                depart_name:'',
+                depart_boss:'',
+                depart_contect:'',
+                address_code:'',
+                address_city:'',
+                address_country:'',
+                address_address:'',
+                depart_code:'',
+                depart_tel:'',
+                depart_ext:'',
                 username:'',
                 nickname:'',
                 email:''
@@ -72,7 +121,12 @@
         },
 
         mounted(){
-
+            new TwCitySelector({
+                el: '.city-selector-set',
+                elCounty: '.address_city', // 在 el 裡查找 element
+                elDistrict: '.address_country', // 在 el 裡查找 element
+                elZipcode: '.address_code' // 在 el 裡查找 element
+            });
             var self=this
             axios.get(this.loginpath, {
             }).then(function (response) {
@@ -118,6 +172,20 @@
 
 <style lang="scss" scoped>
     @import 'src/style/mixin';
-
-
+    .pagecontent{
+        font-size: 0;
+    }
+    label{
+        font-size: 13px;
+    }
+    .bg-gray{
+        background-color: #cee3e7;
+    }
+    .addbtn{
+        color:#0f6674;
+        text-decoration: underline;
+    }
+    #dosubmit{
+        font-size: 13px;
+    }
 </style>
