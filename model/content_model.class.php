@@ -6,6 +6,7 @@ if(!defined('CACHE_MODEL_PATH')) define('CACHE_MODEL_PATH',CACHE_PATH.'caches_mo
  * 内容模型数据库操作类
  */
 pc_base::load_sys_class('model', '', 0);
+pc_base::load_sys_class('alert');
 class content_model extends model {
 	public $table_name = '';
 	public $category = '';
@@ -24,11 +25,12 @@ class content_model extends model {
 	}
 	/**
 	 * 添加内容
-	 * 
+	 *
 	 * @param $datas
 	 * @param $isimport 是否为外部接口导入
 	 */
 	public function add_content($data,$isimport = 0) {
+
 		if($isimport) $data = new_addslashes($data);
 		$this->search_db = pc_base::load_model('search_model');
 		$modelid = $this->modelid;
@@ -47,7 +49,7 @@ class content_model extends model {
 		} else {
 			$systeminfo['inputtime'] = $data['inputtime'];
 		}
-		
+
 		//读取模型字段配置中，关于日期配置格式，来组合日期数据
 		$this->fields = getcache('model_field_'.$modelid,'model');
 		$setting = string2array($this->fields['inputtime']['setting']);
@@ -67,7 +69,7 @@ class content_model extends model {
 		}
 		$inputinfo['system']['username'] = $systeminfo['username'] = $data['username'] ? $data['username'] : param::get_cookie('admin_username');
 		$systeminfo['sysadd'] = defined('IN_ADMIN') ? 1 : 0;
-		
+
 		//自动提取摘要
 		if(isset($_POST['add_introduce']) && $systeminfo['description'] == '' && isset($modelinfo['content'])) {
 			$content = stripslashes($modelinfo['content']);
@@ -85,16 +87,78 @@ class content_model extends model {
 		}
 		$systeminfo['description'] = str_replace(array('/','\\','#','.',"'"),' ',$systeminfo['description']);
 		$systeminfo['keywords'] = str_replace(array('/','\\','#','.',"'"),' ',$systeminfo['keywords']);
-		
+
 		//主表
 		$tablename = $this->table_name = $this->db_tablepre.$this->model_tablename;
+
+		//fabia 建立新表格
+
+		if(isset($data['title']) && $data['title']=='fabia'){
+
+
+            $systeminfo['caseid']=param::get_cookie('_userid');
+
+
+            if($data['school_name']==''){alert::message(-500,L('school_name'));}
+            if($data['depart_name']==''){alert::message(-500,L('depart_name'));}
+            if($data['depart_boss']==''){alert::message(-500,L('depart_boss'));}
+            if($data['depart_contect']==''){alert::message(-500,L('depart_contect'));}
+            if($data['address_city']==''){alert::message(-500,L('address_city'));}
+            if($data['address_country']==''){alert::message(-500,L('address_country'));}
+            if($data['address_address']==''){alert::message(-500,L('address_address'));}
+            if($data['address_code']==''){alert::message(-500,L('address_code'));}
+            if($data['depart_code']==''){alert::message(-500,L('depart_code'));}
+            if($data['depart_tel']==''){alert::message(-500,L('depart_tel'));}
+
+            if(!is_numeric($data['address_code'])){
+                alert::message(-500,L('address_code'),'number');
+			}
+            if(!is_numeric($data['depart_code'])){
+                alert::message(-500,L('depart_code'),'number');
+            }
+            if(!is_numeric($data['depart_tel'])){
+                alert::message(-500,L('depart_tel'),'number');
+            }
+
+            $tempData = html_entity_decode($data['add_contact']);
+            $add_contact=json_decode(str_replace ('\"','"', $tempData), true);
+
+            foreach ($add_contact as $k=>$v) {
+                if($v['name']==''){
+                    alert::message(-500,L('add_name'),$k);
+				}
+                if($v['tel']==''){
+                    alert::message(-500,L('add_tel'),$k);
+                }
+                if($v['email']==''){
+                    alert::message(-500,L('add_email'),$k);
+                }
+                if(!is_numeric($v['tel'])){
+                    alert::message(-500,L('add_tel'),$k);
+                }
+                if(!is_email($v['email'])){
+                    alert::message(-500,L('add_email'),$k);
+                }
+            }
+
+
+
+
+		}
+
+
+
+
+
+
 		$id = $modelinfo['id'] = $this->insert($systeminfo,true);
+
 		$this->update($systeminfo,array('id'=>$id));
 		//更新URL地址
 		if($data['islink']==1) {
 			$urls[0] = trim_script($_POST['linkurl']);
 			$urls[0] = remove_xss($urls[0]);
-			
+
 			$urls[0] = str_replace(array('select ',')','\\','#',"'"),' ',$urls[0]);
 		} else {
 			$urls = $this->url->show($id, 0, $systeminfo['catid'], $systeminfo['inputtime'], $data['prefix'],$inputinfo,'add');
@@ -120,7 +184,7 @@ class content_model extends model {
 		$merge_data = array_merge($systeminfo,$modelinfo);
 		$merge_data['posids'] = $data['posids'];
 		$content_update->update($merge_data);
-		
+
 		//发布到审核列表中
 		if(!defined('IN_ADMIN') || $data['status']!=99) {
 			$this->content_check_db = pc_base::load_model('content_check_model');
@@ -229,7 +293,7 @@ class content_model extends model {
 	}
 	/**
 	 * 修改内容
-	 * 
+	 *
 	 * @param $datas
 	 */
 	public function edit_content($data,$id) {
@@ -240,9 +304,9 @@ class content_model extends model {
 			$us = $this->get_one(array('id'=>$id,'username'=>$_username));
 			if(!$us) return false;
 		}
-		
+
 		$this->search_db = pc_base::load_model('search_model');
-													
+
 		require_once CACHE_MODEL_PATH.'content_input.class.php';
         require_once CACHE_MODEL_PATH.'content_update.class.php';
 		$content_input = new content_input($this->modelid);
@@ -257,7 +321,7 @@ class content_model extends model {
 		} else {
 			$systeminfo['inputtime'] = $data['inputtime'];
 		}
-		
+
 		if($data['updatetime'] && !is_numeric($data['updatetime'])) {
 			$systeminfo['updatetime'] = strtotime($data['updatetime']);
 		} elseif(!$data['updatetime']) {
@@ -326,7 +390,7 @@ class content_model extends model {
 		if(defined('RELATION_HTML')) $html->create_relation_html($systeminfo['catid']);
 		return true;
 	}
-	
+
 	public function status($ids = array(), $status = 99) {
 		$this->content_check_db = pc_base::load_model('content_check_model');
 		$this->message_db = pc_base::load_model('message_model');
@@ -389,8 +453,8 @@ class content_model extends model {
 		//更新栏目统计
 		$this->update_category_items($catid,'delete');
 	}
-	
-	
+
+
 	public function search_api($id = 0, $data = array(), $action = 'update') {
 		$type_arr = getcache('search_model_'.$this->siteid,'search');
 		$typeid = $type_arr[$this->modelid]['typeid'];
@@ -408,7 +472,7 @@ class content_model extends model {
 	}
 	/**
 	 * 获取单篇信息
-	 * 
+	 *
 	 * @param $catid
 	 * @param $id
 	 */
@@ -436,7 +500,7 @@ class content_model extends model {
 	}
 	/**
 	 * 设置catid 所在的模型数据库
-	 * 
+	 *
 	 * @param $catid
 	 */
 	public function set_catid($catid) {
@@ -452,7 +516,7 @@ class content_model extends model {
 			$this->set_model($modelid);
 		}
 	}
-	
+
 	private function update_category_items($catid,$action = 'add',$cache = 0) {
 		$this->category_db = pc_base::load_model('category_model');
 		if($action=='add') {
@@ -462,7 +526,7 @@ class content_model extends model {
 		}
 		if($cache) $this->cache_items();
 	}
-	
+
 	public function cache_items() {
 		$datas = $this->category_db->select(array('modelid'=>$this->modelid),'catid,type,items',10000);
 		$array = array();
