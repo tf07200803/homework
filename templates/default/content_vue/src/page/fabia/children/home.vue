@@ -112,6 +112,7 @@
                 getpath:'index.php?m=member&c=content&a=published&webtype=vue',
                 sendpath:'index.php?m=member&c=content&a=publish',
                 checkpath:'index.php?m=member&c=content&a=published&webtype=fabric',
+                showpath:'index.php?m=content&c=index&a=show&catid=6&id=3&webtype=fabric',
                 school_name:'',
                 depart_name:'',
                 depart_boss:'',
@@ -170,7 +171,7 @@
 
             checkClick:function(){
                 var self=this
-                axios.get(this.checkpath, {
+                axios.get(this.showpath, {
                 }).then(function (response) {
                     var res=response.data;
                     console.log(res)

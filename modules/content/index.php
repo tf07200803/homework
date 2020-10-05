@@ -3,6 +3,7 @@ defined('IN_PHPCMS') or exit('No permission resources.');
 //模型缓存路径
 define('CACHE_MODEL_PATH',CACHE_PATH.'caches_model'.DIRECTORY_SEPARATOR.'caches_data'.DIRECTORY_SEPARATOR);
 pc_base::load_app_func('util','content');
+pc_base::load_sys_class('alert');
 class index {
 	private $db;
 	function __construct() {
@@ -34,7 +35,7 @@ class index {
 	public function show() {
 		$catid = intval($_GET['catid']);
 		$id = intval($_GET['id']);
-
+        $type=isset($_GET['webtype']) ? true : false;
 		if(!$catid || !$id) showmessage(L('information_does_not_exist'),'blank');
 		$_userid = $this->_userid;
 		$_username = $this->_username;
@@ -45,19 +46,24 @@ class index {
 		$siteids = getcache('category_content','commons');
 		$siteid = $siteids[$catid];
 		$CATEGORYS = getcache('category_content_'.$siteid,'commons');
-		
+
 		if(!isset($CATEGORYS[$catid]) || $CATEGORYS[$catid]['type']!=0) showmessage(L('information_does_not_exist'),'blank');
 		$this->category = $CAT = $CATEGORYS[$catid];
 		$this->category_setting = $CAT['setting'] = string2array($this->category['setting']);
 		$siteid = $GLOBALS['siteid'] = $CAT['siteid'];
-		
+
 		$MODEL = getcache('model','commons');
 		$modelid = $CAT['modelid'];
-		
+
 		$tablename = $this->db->table_name = $this->db->db_tablepre.$MODEL[$modelid]['tablename'];
-		$r = $this->db->get_one(array('id'=>$id));
+		if($type){
+            $r = $this->db->get_one(array('caseid'=>$_userid));
+		}else{
+            $r = $this->db->get_one(array('id'=>$id));
+		}
+
 		if(!$r || $r['status'] != 99) showmessage(L('info_does_not_exists'),'blank');
-		
+
 		$this->db->table_name = $tablename.'_data';
 		$r2 = $this->db->get_one(array('id'=>$id));
 		$rs = $r2 ? array_merge($r,$r2) : $r;
@@ -65,12 +71,19 @@ class index {
 		//再次重新赋值，以数据库为准
 		$catid = $CATEGORYS[$r['catid']]['catid'];
 		$modelid = $CATEGORYS[$catid]['modelid'];
-		
+
 		require_once CACHE_MODEL_PATH.'content_output.class.php';
 		$content_output = new content_output($modelid,$catid,$CATEGORYS);
+        if($type){
+            alert::message(1,'',$rs);
+        }
 		$data = $content_output->get($rs);
 		extract($data);
-		
+
+
+
+
+
 		//检查文章会员组权限
 		if($groupids_view && is_array($groupids_view)) {
 			$_groupid = param::get_cookie('_groupid');
@@ -104,7 +117,7 @@ class index {
 				$readpoint = $this->category_setting['defaultchargepoint'];
 				$paytype = $this->category_setting['paytype'];
 			}
-			
+
 			//检查是否支付过
 			$allow_visitor = self::_check_payment($catid.'_'.$id,$paytype);
 			if(!$allow_visitor) {
@@ -117,14 +130,14 @@ class index {
 		//最顶级栏目ID
 		$arrparentid = explode(',', $CAT['arrparentid']);
 		$top_parentid = $arrparentid[1] ? $arrparentid[1] : $catid;
-		
+
 		$template = $template ? $template : $CAT['setting']['show_template'];
 		if(!$template) $template = 'show';
 		//SEO
 		$seo_keywords = '';
 		if(!empty($keywords)) $seo_keywords = implode(',',$keywords);
 		$SEO = seo($siteid, $catid, $title, $description, $seo_keywords);
-		
+
 		define('STYLE',$CAT['setting']['template_list']);
 		if(isset($rs['paginationtype'])) {
 			$paginationtype = $rs['paginationtype'];
@@ -165,7 +178,7 @@ class index {
 				}
 				//当不存在 [/page]时，则使用下面分页
 				$pages = content_pages($pagenumber,$page, $pageurls);
-				//判断[page]出现的位置是否在第一位 
+				//判断[page]出现的位置是否在第一位
 				if($CONTENT_POS<7) {
 					$content = $contents[$page];
 				} else {
@@ -233,7 +246,7 @@ class index {
 
 		$template = $setting['category_template'] ? $setting['category_template'] : 'category';
 		$template_list = $setting['list_template'] ? $setting['list_template'] : 'list';
-		
+
 		if($type==0) {
 			$template = $child ? $template : $template_list;
 			$arrparentid = explode(',', $arrparentid);
@@ -278,7 +291,7 @@ class index {
 			include template('content',$template);
 		}
 	}
-	
+
 	//JSON 输出
 	public function json_list() {
 		if($_GET['type']=='keyword' && $_GET['modelid'] && $_GET['keywords']) {
@@ -313,8 +326,8 @@ class index {
 		}
 
 	}
-	
-	
+
+
 	/**
 	 * 检查支付状态
 	 */
@@ -332,7 +345,7 @@ class index {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 检查阅读权限
 	 *
