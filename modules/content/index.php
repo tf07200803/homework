@@ -31,6 +31,19 @@ class index {
 		$CATEGORYS = getcache('category_content_'.$siteid,'commons');
 		include template('content','index',$default_style);
 	}
+    public function edit() {
+        //设置cookie 在附件添加处调用
+        param::set_cookie('module', 'content');
+
+            define('INDEX_HTML',true);
+            $id = $_POST['info']['id'] = intval($_POST['id']);
+            $catid = $_POST['info']['catid'] = intval($_POST['info']['catid']);
+            $modelid = $this->categorys[$catid]['modelid'];
+            $this->db->set_model($modelid);
+            $this->db->edit_content($_POST['info'],$id);
+        	alert::message(1,'更新成功');
+
+    }
 	//内容页
 	public function show() {
 		$catid = intval($_GET['catid']);
@@ -75,7 +88,7 @@ class index {
 		require_once CACHE_MODEL_PATH.'content_output.class.php';
 		$content_output = new content_output($modelid,$catid,$CATEGORYS);
         if($type){
-            alert::message(1,'',$rs);
+            alert::message(1,'',$r);
         }
 		$data = $content_output->get($rs);
 		extract($data);

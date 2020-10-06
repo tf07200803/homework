@@ -122,6 +122,7 @@
         position: relative;
         margin: auto;
         margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .logo {

@@ -41,10 +41,18 @@ ul{
     margin: auto;
     border-radius: 12px;
     border:1px solid #ccc;
-    padding: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
     box-sizing: border-box;
     max-width: 1000px;
 }
+
+.normal_size{
+    font-size: 13px;
+}
+
 select {
 
     font-size: 16px;
@@ -63,6 +71,16 @@ input[type=text] {
     border:1px solid #ccc;
     height: 36px;
 }
+input[type=file] {
+
+    font-size: 16px;
+    line-height: 16px;
+    background: none;
+
+    height: 36px;
+    padding: 0;
+}
+
 input[type=tel] {
 
     font-size: 16px;
@@ -90,6 +108,13 @@ input[type=submit]{
     border: none;
     color:#fff;
 }
+textarea {
+
+    font-size: 16px;
+    background: none;
+    background-color: #fff;
+    border:1px solid #ccc;
+}
 
 input[type=submit]:hover{
     background-color: rgba(153, 0, 0, 0.75);
@@ -108,4 +133,29 @@ input[type=button]{
 }
 label{
     margin-bottom: 0;
+}
+
+@media (max-width: 575.98px) {
+    .pagecontent{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+
+@media (max-width: 767.98px) {
+    .pagecontent{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+
+@media (max-width: 991.98px) {
+
+}
+
+
+@media (max-width: 1199.98px) {
+
 }

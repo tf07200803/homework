@@ -788,7 +788,8 @@ class index extends foreground {
 				}
 			}
 
-			is_password($password) && is_badword($password)==false ? trim($password) : showmessage(L('password_format_incorrect'), HTTP_REFERER);
+			//is_password($password) && is_badword($password)==false ? trim($password) : showmessage(L('password_format_incorrect'), HTTP_REFERER);
+            is_password($password) && is_badword($password)==false ? trim($password) : alert::message(-1,L('password_format_incorrect'));;
 			$cookietime = intval($_POST['cookietime']);
 			$synloginstr = ''; //同步登陆js代码
 
@@ -959,7 +960,6 @@ class index extends foreground {
                 $yesarr['yes'] = 1;
                 $this->db->update($yesarr, array('userid'=>$userid));
                 //var_dump($this->db->get_one(array('phpssouid'=>1)));
-
 			}
 
             if($type || $pwd!=''){

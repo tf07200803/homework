@@ -42,6 +42,7 @@ class content extends foreground {
 			if (!$priv_db->get_one(array('catid'=>$catid, 'roleid'=>$memberinfo['groupid'], 'is_admin'=>0, 'action'=>'add'))) showmessage(L('category').L('publish_deny'), APP_PATH.'index.php?m=member');
 
 
+
 			$siteid = $siteids[$catid];
 			$CATEGORYS = getcache('category_content_'.$siteid, 'commons');
 			$category = $CATEGORYS[$catid];
@@ -49,6 +50,10 @@ class content extends foreground {
 			if(!$modelid) showmessage(L('illegal_parameters'), HTTP_REFERER);
 			$this->content_db = pc_base::load_model('content_model');
 			$this->content_db->set_model($modelid);
+            $getcaseid=$this->content_db->get_one(array('caseid'=>$memberinfo['userid']));
+            if($getcaseid){
+                alert::message(-2,'此帳號有驗證過');
+			}
 			$table_name = $this->content_db->table_name;
 			$fields_sys = $this->content_db->get_fields();
 			$this->content_db->table_name = $table_name.'_data';
@@ -56,6 +61,11 @@ class content extends foreground {
 			$fields_attr = $this->content_db->get_fields();
 			$fields = array_merge($fields_sys,$fields_attr);
 			$fields = array_keys($fields);
+
+
+
+
+
 			$info = array();
 			foreach($_POST['info'] as $_k=>$_v) {
 				if($_k == 'content') {

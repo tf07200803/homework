@@ -23,6 +23,7 @@
             return{
                 loginpath:'index.php?m=member&c=index&a=init&webtype=vue',
                 gmailpath:'index.php?m=member&c=index&a=checkgmail&gid='+this.$route.params.aid,
+                sendpath:'index.php?m=member&c=content&a=publish',
                 username:'',
                 nickname:'',
                 email:''
@@ -55,14 +56,20 @@
                 axios.get(this.gmailpath, {
                 }).then(function (response) {
                     var res=response.data;
+                    console.log(res)
+
 
                     if(res.status==-1){
                         alert(res.msg)
                         self.$router.push('/fabia/fabia_login');
-                    }else if(res.status==1){
-                        alert(res.msg)
-                        self.$router.push('/fabia/fabia_home');
                     }
+                    if(res.status==1){
+                        alert(res.msg)
+                        self.sendClick()
+                    }
+
+
+
 
 
                 }).catch(function (err) {
@@ -83,7 +90,63 @@
         },
 
         methods:{
+            sendClick:function(){
+                var self=this
+                var bodyFormData = new FormData();
 
+
+                bodyFormData.set('webtype', 'vue');
+                bodyFormData.set('webname', 'fabia');
+                bodyFormData.set('info[catid]', 6);
+                bodyFormData.set('info[title]', 'XXX');
+                bodyFormData.set('info[content]', 'XXX');
+                bodyFormData.set('info[school_name]', '學校姓名');
+                bodyFormData.set('info[depart_name]', '老闆名稱');
+                bodyFormData.set('info[depart_boss]', '');
+                bodyFormData.set('info[depart_contect]', '');
+                bodyFormData.set('info[address_city]', '');
+                bodyFormData.set('info[address_country]', '');
+                bodyFormData.set('info[address_address]', '');
+                bodyFormData.set('info[address_code]', '');
+                bodyFormData.set('info[depart_code]', '');
+                bodyFormData.set('info[depart_tel]', '');
+                bodyFormData.set('info[depart_ext]', '');
+                bodyFormData.set('info[add_contact]', '');
+                bodyFormData.set('dosubmit', '登录');
+
+                axios({
+                    method: 'post',
+                    url: self.sendpath,
+                    data: bodyFormData,
+                    headers: {'Content-Type': 'multipart/form-data'}
+                })
+                    .then(function (response) {
+                        var res=response.data;
+
+                        if(res.status==1){
+                            alert(res.msg)
+                            self.$router.push('/fabia/fabia_home');
+
+                        }else if(res.status==-1){
+
+                            alert(res.msg)
+                            self.$router.push('/fabia/fabia_login');
+
+                        }
+                        if(res.status==-2){
+                            alert(res.msg)
+                            self.$router.push('/fabia/fabia_home');
+                        }
+
+                        console.log(res)
+                    })
+                    .catch(function (response) {
+                        console.log(response);
+                    });
+
+
+
+            }
         },
         /*created时，可用data和prop中的数据。
     computed的属性，当在mounted或者dom中使用到时，才会属性的执行代码。

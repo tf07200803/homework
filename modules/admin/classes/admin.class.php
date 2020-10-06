@@ -12,7 +12,7 @@ define('IN_ADMIN',true);
 class admin {
 	public $userid;
 	public $username;
-	
+
 	public function __construct() {
 		self::check_admin();
 		self::check_priv();
@@ -27,7 +27,7 @@ class admin {
 			exit('No permission resources.');
 		}
 	}
-	
+
 	/**
 	 * 判断用户是否已经登陆
 	 */
@@ -50,10 +50,10 @@ class admin {
 		if(empty($m)) return false;
 		return PC_PATH.'modules'.DIRECTORY_SEPARATOR.$m.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$file.'.tpl.php';
 	}
-	
+
 	/**
 	 * 按父ID查找菜单子项
-	 * @param integer $parentid   父菜单ID  
+	 * @param integer $parentid   父菜单ID
 	 * @param integer $with_self  是否包括他自己
 	 */
 	final public static function admin_menu($parentid, $with_self = 0) {
@@ -88,7 +88,7 @@ class admin {
 	}
 	/**
 	 * 获取菜单 头部菜单导航
-	 * 
+	 *
 	 * @param $parentid 菜单id
 	 */
 	final public static function submenu($parentid = '', $big_menu = false) {
@@ -98,7 +98,7 @@ class admin {
 			$parentid = $_GET['menuid'] = $r['id'];
 		}
 		$array = self::admin_menu($parentid,1);
-		
+
 		$numbers = count($array);
 		if($numbers==1 && !$big_menu) return '';
 		$string = '';
@@ -122,7 +122,7 @@ class admin {
 	}
 	/**
 	 * 当前位置
-	 * 
+	 *
 	 * @param $id 菜单id
 	 */
 	final public static function current_pos($id) {
@@ -134,14 +134,14 @@ class admin {
 		}
 		return $str.L($r['name']).' > ';
 	}
-	
+
 	/**
 	 * 获取当前的站点ID
 	 */
 	final public static function get_siteid() {
 		return get_siteid();
 	}
-	
+
 	/**
 	 * 获取当前站点信息
 	 * @param integer $siteid 站点ID号，为空时取当前站点的信息
@@ -153,7 +153,7 @@ class admin {
 		$sites = pc_base::load_app_class('sites', 'admin');
 		return $sites->get_by_id($siteid);
 	}
-	
+
 	final public static function return_siteid() {
 		$sites = pc_base::load_app_class('sites', 'admin');
 		$siteid = explode(',',$sites->get_role_siteid($_SESSION['roleid']));
@@ -177,8 +177,8 @@ class admin {
 	}
 
 	/**
-	 * 
-	 * 记录日志 
+	 *
+	 * 记录日志
 	 */
 	final private function manage_log() {
 		//判断是否记录
@@ -199,9 +199,9 @@ class admin {
 			}
 	  	}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 后台IP禁止判断 ...
 	 */
 	final private function check_ip(){

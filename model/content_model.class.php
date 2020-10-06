@@ -92,64 +92,7 @@ class content_model extends model {
 		$tablename = $this->table_name = $this->db_tablepre.$this->model_tablename;
 
 		//fabia 建立新表格
-
-		if(isset($data['title']) && $data['title']=='fabia'){
-
-
-            $systeminfo['caseid']=param::get_cookie('_userid');
-
-
-            if($data['school_name']==''){alert::message(-500,L('school_name'));}
-            if($data['depart_name']==''){alert::message(-500,L('depart_name'));}
-            if($data['depart_boss']==''){alert::message(-500,L('depart_boss'));}
-            if($data['depart_contect']==''){alert::message(-500,L('depart_contect'));}
-            if($data['address_city']==''){alert::message(-500,L('address_city'));}
-            if($data['address_country']==''){alert::message(-500,L('address_country'));}
-            if($data['address_address']==''){alert::message(-500,L('address_address'));}
-            if($data['address_code']==''){alert::message(-500,L('address_code'));}
-            if($data['depart_code']==''){alert::message(-500,L('depart_code'));}
-            if($data['depart_tel']==''){alert::message(-500,L('depart_tel'));}
-
-            if(!is_numeric($data['address_code'])){
-                alert::message(-500,L('address_code'),'number');
-			}
-            if(!is_numeric($data['depart_code'])){
-                alert::message(-500,L('depart_code'),'number');
-            }
-            if(!is_numeric($data['depart_tel'])){
-                alert::message(-500,L('depart_tel'),'number');
-            }
-
-            $tempData = html_entity_decode($data['add_contact']);
-            $add_contact=json_decode(str_replace ('\"','"', $tempData), true);
-
-            foreach ($add_contact as $k=>$v) {
-                if($v['name']==''){
-                    alert::message(-500,L('add_name'),$k);
-				}
-                if($v['tel']==''){
-                    alert::message(-500,L('add_tel'),$k);
-                }
-                if($v['email']==''){
-                    alert::message(-500,L('add_email'),$k);
-                }
-                if(!is_numeric($v['tel'])){
-                    alert::message(-500,L('add_tel'),$k);
-                }
-                if(!is_email($v['email'])){
-                    alert::message(-500,L('add_email'),$k);
-                }
-            }
-
-
-
-
-		}
-
-
-
-
-
+        $systeminfo['caseid']=param::get_cookie('_userid');
 
 		$id = $modelinfo['id'] = $this->insert($systeminfo,true);
 
@@ -298,12 +241,20 @@ class content_model extends model {
 	 */
 	public function edit_content($data,$id) {
 		$model_tablename = $this->model_tablename;
+
+
 		//前台权限判断
-		if(!defined('IN_ADMIN')) {
+		if(!defined('IN_ADMIN') && $data['title']!='fabia') {
 			$_username = param::get_cookie('_username');
 			$us = $this->get_one(array('id'=>$id,'username'=>$_username));
 			if(!$us) return false;
 		}
+
+		if($data['title']!='fabia'){
+            $id=$data['id'];
+		}
+
+
 
 		$this->search_db = pc_base::load_model('search_model');
 
@@ -356,6 +307,66 @@ class content_model extends model {
 		$systeminfo['keywords'] = str_replace(array('/','\\','#','.',"'"),' ',$systeminfo['keywords']);
 		//主表
 		$this->table_name = $this->db_tablepre.$model_tablename;
+
+        if($data['title']=='fabia'){
+            $systeminfo['caseid']=param::get_cookie('_userid');
+
+
+            if($data['school_name']==''){alert::message(-500,L('school_name'));}
+            if($data['depart_name']==''){alert::message(-500,L('depart_name'));}
+            if($data['depart_boss']==''){alert::message(-500,L('depart_boss'));}
+            if($data['depart_contect']==''){alert::message(-500,L('depart_contect'));}
+            if($data['address_city']==''){alert::message(-500,L('address_city'));}
+            if($data['address_country']==''){alert::message(-500,L('address_country'));}
+            if($data['address_address']==''){alert::message(-500,L('address_address'));}
+            if($data['address_code']==''){alert::message(-500,L('address_code'));}
+            if($data['depart_code']==''){alert::message(-500,L('depart_code'));}
+            if($data['depart_tel']==''){alert::message(-500,L('depart_tel'));}
+
+            if(!is_numeric($data['address_code'])){
+                alert::message(-500,L('address_code'),'number');
+            }
+            if(!is_numeric($data['depart_code'])){
+                alert::message(-500,L('depart_code'),'number');
+            }
+            if(!is_numeric($data['depart_tel'])){
+                alert::message(-500,L('depart_tel'),'number');
+            }
+
+            $tempData = html_entity_decode($data['add_contact']);
+            $add_contact=json_decode(str_replace ('\"','"', $tempData), true);
+
+            foreach ($add_contact as $k=>$v) {
+                if($v['name']==''){
+                    alert::message(-500,L('add_name'),$k);
+                }
+                if($v['tel']==''){
+                    alert::message(-500,L('add_tel'),$k);
+                }
+                if($v['email']==''){
+                    alert::message(-500,L('add_email'),$k);
+                }
+                if(!is_numeric($v['tel'])){
+                    alert::message(-500,L('add_tel'),$k);
+                }
+                if(!is_email($v['email'])){
+                    alert::message(-500,L('add_email'),$k);
+                }
+            }
+            $systeminfo['school_name']=$data['school_name'];
+            $systeminfo['depart_name']=$data['depart_name'];
+            $systeminfo['depart_boss']=$data['depart_boss'];
+            $systeminfo['depart_contect']=$data['depart_contect'];
+            $systeminfo['address_city']=$data['address_city'];
+            $systeminfo['address_country']=$data['address_country'];
+            $systeminfo['address_address']=$data['address_address'];
+            $systeminfo['address_code']=$data['address_code'];
+            $systeminfo['depart_code']=$data['depart_code'];
+            $systeminfo['depart_tel']=$data['depart_tel'];
+            $systeminfo['add_contact']=$data['add_contact'];
+            $this->table_name='news';
+        }
+
 		$this->update($systeminfo,array('id'=>$id));
 
 		//附属表

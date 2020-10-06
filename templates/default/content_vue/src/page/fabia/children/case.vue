@@ -3,82 +3,64 @@
         <div class="pagecontent">
 
             <div class="titletxt pb-1 text-center text-lg-left w-100">
-                學生報名系統
+                徵案資料
 
             </div>
 
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">學校全名：</label><input type="text" id="school_name" name="school_name" size="36" class="input-text col-12 col-lg-12" v-model="school_name" placeholder="學校全名"></div>
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系所全名：</label><input type="text" id="depart_name" name="depart_name" size="36" class="input-text col-12 col-lg-12" v-model="depart_name" placeholder="系所全名"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">節目名稱：</label><input type="text" id="program_name" name="program_name" size="36" class="input-text col-12 col-lg-12" v-model="program_name" placeholder="節目名稱"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">製作人：</label><input type="text" id="program_men" name="program_men" size="36" class="input-text col-12 col-lg-12" v-model="program_men" placeholder="製作人"></div>
             </div>
 
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系主任/所長：</label><input type="text" id="depart_boss" name="depart_boss" size="36" class="input-text col-12 col-lg-12" v-model="depart_boss" placeholder="系主任/所長"></div>
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">系所聯絡人：</label><input type="text" id="depart_contect" name="depart_contect" size="36" class="input-text col-12 col-lg-12" v-model="depart_contect" placeholder="系所聯絡人"></div>
-            </div>
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">劇情簡介：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
+                    <textarea name="program_detail" id="program_detail" class="input-text col-12 col-lg-12" rows="5" cols="50" placeholder="(以 150 字為限，不含半形標點符號)"></textarea>
+                </div>
 
+            </div>
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3 city-selector-set">
-                    <label class="d-block">系所地址：</label>
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">人物表：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
+                    <textarea name="program_people" id="program_people" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)"></textarea>
+                </div>
 
+            </div>
+            <div class="row m-0 p-0">
 
-
-                        <select id="address_city" name="address_city" class="col-6 col-lg-2 mb-lg-0 mb-md-1 mb-sm-1 mb-1 address_city">
-
-                        </select>
-                        <select id="address_country" name="address_country" class="col-6 col-lg-2 mb-lg-0 mb-md-1 mb-sm-1 mb-1 address_country">
-
-                        </select>
-                    <!--<div role="tw-city-selector" data-has-zipcode></div>-->
-                        <input type="text" id="address_address" name="address_address" size="36" class="input-text col-10 col-lg-6" v-model="address_address" placeholder="系所地址/地址">
-                        <input type="tel" id="address_code" name="address_code" size="36" class="input-text col-2 col-lg-2 mb-lg-0 mb-md-1 mb-sm-1 mb-1 address_code" placeholder="郵遞區號">
-
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">故事大綱：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
+                    <textarea name="program_story" id="program_story" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)"></textarea>
                 </div>
 
             </div>
 
+
             <div class="row m-0 p-0">
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3">
-                    <label class="d-block">系所電話：</label>
 
-                    <div class="row m-0 p-0">
-                        <input type="tel" id="depart_code" name="depart_code" size="36" class="input-text col-6 col-lg-2 order-0 order-lg-0 mb-md-1 mb-sm-1 mb-1 mb-lg-0" v-model="depart_code" placeholder="區碼">
-                        <input type="tel" id="depart_tel" name="depart_tel" size="36" class="input-text col-12 col-lg-8 order-2 order-lg-1 mb-md-0 mb-sm-1 mb-1 mb-lg-0" v-model="depart_tel" placeholder="電話">
-                        <input type="tel" id="depart_ext" name="depart_ext" size="36" class="input-text col-6 col-lg-2 order-1 order-lg-2 mb-md-1 mb-sm-1 mb-1 mb-lg-0" v-model="depart_ext" placeholder="分機">
-                    </div>
-
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label>作品屬於：</label>
+                    <input type="radio" name="program_has" value="0" checked/><span class="normal_size">&nbsp;原創&nbsp;&nbsp;</span>
+                    <input type="radio" name="program_has" value="1"/><span class="normal_size">&nbsp;原著改編</span>
                 </div>
 
             </div>
 
+
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 contactroot">
-                    <label class="d-block">聯絡人：</label>
-
-                    <div class="row m-0 p-1 bg-gray contactdiv" v-for="(infor,index,i) in addary">
-                        <input type="text" id="add_name" name="add_name" size="36" class="input-text col-6 col-lg-3 mb-md-1 mb-sm-1 mb-1 mb-lg-0"  placeholder="姓名"  v-model="infor.name">
-                        <input type="tel" id="add_tel" name="add_tel" size="36" class="input-text col-6 col-lg-3 mb-md-0 mb-sm-1 mb-1 mb-lg-0"  placeholder="電話" v-model="infor.tel">
-                        <input type="text" id="add_email" name="add_email" size="36" class="input-text col-12 col-lg-6"  placeholder="email" v-model="infor.email">
-                        <div class="col-12 text-right m-0 p-0 delbtn" @click="delcase(index)" v-if="index>0">X移除</div>
-                    </div>
-
-
-
-
-                </div>
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3">
-                    <label class="d-block text-right addbtn" @click="addcase()">新增</label>
-                </div>
-
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著名稱：</label><input type="text" id="has_men" name="has_men" size="36" class="input-text col-12 col-lg-12" v-model="program_name" placeholder="節目名稱"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著應為經公開發表之著作，並請上傳原著改作同意書 (PDF/JPG)：</label><input type="file" id="has_agree" name="has_agree" size="36" class="input-text col-12 col-lg-12"></div>
 
             </div>
+
+
 
             <div class="row m-0 p-0 justify-content-center">
-                <div class="input col-lg-3 col-md-12  d-inline-block">
+                <div class="input col-lg-3 col-5   d-inline-block">
+                    <input type="submit" name="dosubmit" id="dosubmit" value="上一步" @click="gotoAddress('/fabia/fabia_home')" class="w-100">
+                </div>
+
+                <div class="input col-lg-3 col-5   d-inline-block">
                     <input type="submit" name="dosubmit" id="dosubmit" value="下一步" @click="sendClick()" class="w-100">
                 </div>
 
@@ -107,21 +89,16 @@
 
                 showpath:'index.php?m=content&c=index&a=show&catid=6&id=3&webtype=fabric',
                 editpath:'index.php?m=content&c=index&a=edit',
-                school_name:'',
-                depart_name:'',
-                depart_boss:'',
-                depart_contect:'',
-                address_code:'',
-                address_city:'',
-                address_country:'',
-                address_address:'',
-                depart_code:'',
-                depart_tel:'',
-                depart_ext:'',
-                add_contact:'',
+                program_name:'',
+                program_men:'',
+                program_detail:'',
+                program_people:'',
+                program_story:'',
+                program_has:'',
+                has_men:'',
+                has_agree:'',
                 caseid:'',
                 id:'',
-                addary:[{name:'',tel:'',email:''}],
             }
         },
 
@@ -149,29 +126,7 @@
                 if(res.status==-1){
 
                 }else if(res.status==1){
-                    self.school_name=res.data.school_name
-                    self.depart_name=res.data.depart_name
-                    self.depart_boss=res.data.depart_boss
-                    self.depart_contect=res.data.depart_contect
-                    self.address_code=res.data.address_code
-                    self.address_city=res.data.address_city
-                    self.address_country=res.data.address_country
-                    self.address_address=res.data.address_address
-                    self.depart_code=res.data.depart_code
-                    self.depart_tel=res.data.depart_tel
-                    self.depart_ext=res.data.depart_ext
-                    self.caseid=res.data.caseid
-                    self.add_contact=res.data.add_contact
-                    self.addary=JSON.parse(self.add_contact)
-                    self.id=res.data.id
-                    new TwCitySelector({
-                        el: '.city-selector-set',
-                        elCounty: '.address_city', // 在 el 裡查找 element
-                        elDistrict: '.address_country', // 在 el 裡查找 element
-                        elZipcode: '.address_code', // 在 el 裡查找 element
-                        countyValue: self.address_city, // 注意此項為關聯參數
-                        districtValue: self.address_country
-                    });
+
                 }
 
 
@@ -192,7 +147,9 @@
         methods:{
 
 
-
+            gotoAddress(path){
+                this.$router.push(path)
+            },
 
             addcase:function(){
                 this.addary.push({name:'',tel:'',email:''})
@@ -286,7 +243,6 @@
 
                         }else if(res.status==1){
                             alert(res.msg)
-                            self.$router.push('/fabia/fabia_case');
                         }else if(res.status==-1){
                             alert(res.msg)
                             self.$router.push('/fabia/fabia_login');
