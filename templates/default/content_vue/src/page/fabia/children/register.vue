@@ -4,7 +4,7 @@
 
 
             <div class="titletxt pb-1 text-center text-lg-left w-100">
-                会员注册
+                VN会员注册
 
             </div>
 

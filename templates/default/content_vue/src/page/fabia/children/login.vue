@@ -8,7 +8,7 @@
             <div class="row m-0 p-0">
 
                 <div class="titletxt pb-1 text-center text-lg-left w-100">
-                    登入平台
+                    VN登入平台
 
                 </div>
 

@@ -3,7 +3,7 @@
         <div class="pagecontent">
 
             <div class="titletxt pb-1 text-center text-lg-left w-100">
-                學生報名系統
+                VN報名系統
 
             </div>
 

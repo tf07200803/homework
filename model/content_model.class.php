@@ -308,7 +308,7 @@ class content_model extends model {
 		//主表
 		$this->table_name = $this->db_tablepre.$model_tablename;
 
-        if($data['title']=='fabia'){
+        if($data['title']=='fabia' && $data['content']=='fabia'){
             $systeminfo['caseid']=param::get_cookie('_userid');
 
 
@@ -364,6 +364,30 @@ class content_model extends model {
             $systeminfo['depart_code']=$data['depart_code'];
             $systeminfo['depart_tel']=$data['depart_tel'];
             $systeminfo['add_contact']=$data['add_contact'];
+            $this->table_name='news';
+        }
+        if($data['title']=='fabia' && $data['content']=='case'){
+            $systeminfo['caseid']=param::get_cookie('_userid');
+
+
+            if($data['program_name']==''){alert::message(-500,L('program_name'));}
+            if($data['program_men']==''){alert::message(-500,L('program_men'));}
+            if($data['program_detail']==''){alert::message(-500,L('program_detail'));}
+            if($data['program_people']==''){alert::message(-500,L('program_people'));}
+            if($data['program_story']==''){alert::message(-500,L('program_story'));}
+            if($data['has_agree']==''){alert::message(-500,L('has_agree'));}
+            if($data['has_name']==''){alert::message(-500,L('has_name'));}
+            if($data['has_file']==''){alert::message(-500,L('has_file'));}
+
+
+            $systeminfo['program_name']=$data['program_name'];
+            $systeminfo['program_men']=$data['program_men'];
+            $systeminfo['program_detail']=$data['program_detail'];
+            $systeminfo['program_people']=$data['program_people'];
+            $systeminfo['program_story']=$data['program_story'];
+            $systeminfo['has_agree']=$data['has_agree'];
+            $systeminfo['has_name']=$data['has_name'];
+            $systeminfo['has_file']=$data['has_file'];
             $this->table_name='news';
         }
 

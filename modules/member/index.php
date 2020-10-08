@@ -58,7 +58,7 @@ class index extends foreground {
         $mail->IsHTML(true);     //內容HTML格式
         $mail->From = "tommy19830720@gmail.com";        //寄件者信箱
         $mail->FromName = "tommy";    //寄信者姓名
-        $mail->Subject = "公共電視台帳號驗證";     //信件主旨
+        $mail->Subject = "VN帳號驗證";     //信件主旨
         $mail->Body = $name."您好~請點選此網址驗證您的帳號".APP_PATH.'#/fabia_gmail/'.$code;        //信件內容
         $mail->AddAddress($_email);   //收件者信箱
         if($mail->Send()){

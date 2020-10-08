@@ -3,7 +3,7 @@
         <div class="pagecontent">
 
             <div class="titletxt pb-1 text-center text-lg-left w-100">
-                徵案資料
+                VN徵案資料
 
             </div>
 
@@ -16,21 +16,21 @@
             <div class="row m-0 p-0">
 
                 <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">劇情簡介：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
-                    <textarea name="program_detail" id="program_detail" class="input-text col-12 col-lg-12" rows="5" cols="50" placeholder="(以 150 字為限，不含半形標點符號)"></textarea>
+                    <textarea name="program_detail" id="program_detail" class="input-text col-12 col-lg-12" rows="5" cols="50" placeholder="(以 150 字為限，不含半形標點符號)" v-model="program_detail"></textarea>
                 </div>
 
             </div>
             <div class="row m-0 p-0">
 
                 <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">人物表：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
-                    <textarea name="program_people" id="program_people" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)"></textarea>
+                    <textarea name="program_people" id="program_people" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)" v-model="program_people"></textarea>
                 </div>
 
             </div>
             <div class="row m-0 p-0">
 
                 <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">故事大綱：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
-                    <textarea name="program_story" id="program_story" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)"></textarea>
+                    <textarea name="program_story" id="program_story" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)" v-model="program_story"></textarea>
                 </div>
 
             </div>
@@ -39,8 +39,8 @@
             <div class="row m-0 p-0">
 
                 <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label>作品屬於：</label>
-                    <input type="radio" name="program_has" value="0" checked/><span class="normal_size">&nbsp;原創&nbsp;&nbsp;</span>
-                    <input type="radio" name="program_has" value="1"/><span class="normal_size">&nbsp;原著改編</span>
+                    <input type="radio" name="has_agree" value="0" v-model="has_agree"/><span class="normal_size">&nbsp;原創&nbsp;&nbsp;</span>
+                    <input type="radio" name="has_agree" value="1" v-model="has_agree"/><span class="normal_size">&nbsp;原著改編</span>
                 </div>
 
             </div>
@@ -48,8 +48,21 @@
 
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著名稱：</label><input type="text" id="has_men" name="has_men" size="36" class="input-text col-12 col-lg-12" v-model="program_name" placeholder="節目名稱"></div>
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著應為經公開發表之著作，並請上傳原著改作同意書 (PDF/JPG)：</label><input type="file" id="has_agree" name="has_agree" size="36" class="input-text col-12 col-lg-12"></div>
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著名稱：</label><input type="text" id="has_name" name="has_name" size="36" class="input-text col-12 col-lg-12" v-model="has_name" placeholder="原著名稱"></div>
+                <!--<div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著應為經公開發表之著作，並請上傳原著改作同意書 (PDF/JPG)：</label><input type="file" id="has_file" name="has_file" size="36" class="input-text col-12 col-lg-12"></div>-->
+                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著應為經公開發表之著作，並請上傳原著改作同意書 (PDF/JPG)：</label>
+
+
+                    <div class="row m-0 p-0">
+                        <div class="col-9 pl-0 pr-0"><input type="text" id="has_file" name="has_file" size="36" class="input-text w-100" v-model="has_file"></div>
+                        <div class="col-3 pl-0 pr-0 uploadiv">上傳<input type="file" id="uploadbtn" name="uploadbtn"></div>
+                    </div>
+
+
+
+                </div>
+
+
 
             </div>
 
@@ -80,7 +93,7 @@
     import 'src/style/init.css'
     import $ from "jquery";
     import axios from 'axios';
-    import TwCitySelector  from 'src/plugins/tw-city-selector.js';
+
 
     export default {
         data(){
@@ -94,9 +107,9 @@
                 program_detail:'',
                 program_people:'',
                 program_story:'',
-                program_has:'',
-                has_men:'',
-                has_agree:'',
+                has_agree:0,
+                has_name:'',
+                has_file:'',
                 caseid:'',
                 id:'',
             }
@@ -126,7 +139,16 @@
                 if(res.status==-1){
 
                 }else if(res.status==1){
-
+                    self.program_name=res.data.program_name
+                    self.program_men=res.data.program_men
+                    self.program_detail=res.data.program_detail
+                    self.program_people=res.data.program_people
+                    self.program_story=res.data.program_story
+                    self.has_agree=res.data.has_agree
+                    self.has_name=res.data.has_name
+                    self.has_file=res.data.has_file
+                    self.id=res.data.id
+                    self.caseid=res.data.caseid
                 }
 
 
@@ -168,22 +190,19 @@
                 bodyFormData.set('webname', 'fabia');
                 bodyFormData.set('info[catid]', 6);
                 bodyFormData.set('info[title]', 'fabia');
-                bodyFormData.set('info[content]', 'fabia');
-                bodyFormData.set('info[school_name]', self.school_name);
-                bodyFormData.set('info[depart_name]', self.depart_name);
-                bodyFormData.set('info[depart_boss]', self.depart_boss);
-                bodyFormData.set('info[depart_contect]', self.depart_contect);
-                bodyFormData.set('info[address_city]', $("#address_city").val());
-                bodyFormData.set('info[address_country]', $("#address_country").val());
-                bodyFormData.set('info[address_address]', self.address_address);
-                bodyFormData.set('info[address_code]', $("#address_code").val());
-                bodyFormData.set('info[depart_code]', self.depart_code);
-                bodyFormData.set('info[depart_tel]', self.depart_tel);
-                bodyFormData.set('info[depart_ext]', self.depart_ext);
-                bodyFormData.set('info[add_contact]', JSON.stringify(self.addary));
+                bodyFormData.set('info[content]', 'case');
+                bodyFormData.set('info[program_name]', self.program_name);
+                bodyFormData.set('info[program_men]', self.program_men);
+                bodyFormData.set('info[program_detail]', self.program_detail);
+                bodyFormData.set('info[program_people]', self.program_people);
+                bodyFormData.set('info[program_story]', self.program_story);
+                bodyFormData.set('info[has_agree]', self.has_agree);
+                bodyFormData.set('info[has_name]', self.has_name);
+                bodyFormData.set('info[has_file]', self.has_file);
                 bodyFormData.set('info[caseid]', self.caseid);
                 bodyFormData.set('id', self.id);
                 bodyFormData.set('dosubmit', '登录');
+
 
                 axios({
                     method: 'post',
@@ -195,47 +214,26 @@
                         var res=response.data;
                         if(res.status==-500){
                             //alert(res.msg)
-                            if(res.msg=='school_name'){
-                                alert('請填寫 學校全名')
-                            }else if(res.msg=='depart_name'){
-                                alert('請填寫 系所全名')
-                            }else if(res.msg=='depart_boss'){
-                                alert('請填寫 系主任/所長')
-                            }else if(res.msg=='depart_contect'){
-                                alert('請填寫 系所聯絡人')
-                            }else if(res.msg=='address_city'){
-                                alert('請填寫 系所縣市')
-                            }else if(res.msg=='address_country'){
-                                alert('請填寫 系所區域')
-                            }else if(res.msg=='address_address'){
-                                alert('請填寫 系所地址')
-                            }else if(res.msg=='address_code' && res.data==''){
-                                alert('請填寫 郵遞區號')
-                            }else if(res.msg=='address_code' && res.data=='number'){
-                                alert('郵遞區號 為數字型態')
-                            }else if(res.msg=='depart_code' && res.data==''){
-                                alert('請填寫 區碼')
-                            }else if(res.msg=='depart_code' && res.data=='number'){
-                                alert('區碼 為數字型態')
-                            }else if(res.msg=='depart_tel' && res.data==''){
-                                alert('請填寫 電話')
-                            }else if(res.msg=='depart_tel' && res.data=='number'){
-                                alert('電話 為數字型態')
-                            }else if(res.msg=='add_name'){
-                                alert('請填寫 聯絡人姓名')
-                            }else if(res.msg=='add_tel'){
-                                alert('請填寫 聯絡人電話 聯絡人電話 為數字型態')
-                            }else if(res.msg=='add_email'){
-                                alert('請填寫 聯絡人email 聯絡人email 請填寫正確格式')
+                            if(res.msg=='program_name'){
+                                alert('請填寫 節目名稱')
+                            }else if(res.msg=='program_men'){
+                                alert('請填寫 製作人')
+                            }else if(res.msg=='program_detail'){
+                                alert('請填寫 劇情簡介')
+                            }else if(res.msg=='program_people'){
+                                alert('請填寫 人物表')
+                            }else if(res.msg=='program_story'){
+                                alert('請填寫 故事大綱')
+                            }else if(res.msg=='has_name' && self.has_agree==1){
+                                alert('請填寫 原著名稱')
+                            }else if(res.msg=='has_file' && self.has_agree==1){
+                                alert('請上傳 PDF/JPG')
                             }
 
 
-                            if(!isNaN(res.data)){
-                                $(".contactroot").find(".contactdiv:eq("+res.data+")").find("#"+res.msg).focus()
 
-                            }else{
-                                $("#"+res.msg).focus()
-                            }
+                            $("#"+res.msg).focus()
+
 
 
 
@@ -291,5 +289,23 @@
     .delbtn{
         color:#0f6674;
         font-size: 13px;
+    }
+    #uploadbtn{
+        position: absolute;
+        left:0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .uploadiv{
+
+        background-color: #990000;
+        font-size: 13px;
+        color:#fff;
+        text-align: center;
+        line-height: 36px;
+        height: 36px;
+        overflow: hidden;
+
     }
 </style>
