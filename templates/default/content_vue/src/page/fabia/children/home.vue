@@ -145,10 +145,11 @@
             axios.get(this.showpath, {
             }).then(function (response) {
                 var res=response.data;
-
+                console.log(res)
                 if(res.status==-1){
 
                 }else if(res.status==1){
+                    console.log("成功")
                     self.school_name=res.data.school_name
                     self.depart_name=res.data.depart_name
                     self.depart_boss=res.data.depart_boss
@@ -162,7 +163,13 @@
                     self.depart_ext=res.data.depart_ext
                     self.caseid=res.data.caseid
                     self.add_contact=res.data.add_contact
-                    self.addary=JSON.parse(self.add_contact)
+                    try {
+                        self.addary=JSON.parse(self.add_contact)
+                    }
+                    catch(err) {
+
+                    }
+
                     self.id=res.data.id
                     new TwCitySelector({
                         el: '.city-selector-set',

@@ -38,10 +38,19 @@ class index extends foreground {
 
 	}
 
-	public function sendgmail($_email,$name,$code){
+	public function sendgmail($_email='',$name=''){
+
+
+		if($_email==''){
+            $_email=$_GET['gid'];
+		}
 
 
 
+
+        $timestamp = time() ;
+        $timecode=base64_encode($timestamp);
+        param::set_cookie('timecode', $timecode, $timestamp+600);
 
         require_once 'phpmailer/class.phpmailer.php';
         $mail = new PHPMailer();
@@ -50,7 +59,7 @@ class index extends foreground {
         $mail->Port = 465;
         $mail->CharSet = "utf-8";    //信件編碼
         $mail->Username = "tommy19830720@gmail.com";        //帳號，例:example@gmail.com
-        $mail->Password = "0955076199";        //密碼
+        $mail->Password = "o955o76199";        //密碼
         $mail->IsSMTP();
         $mail->SMTPAuth = true;
         $mail->SMTPDebug  = 1;
@@ -59,12 +68,19 @@ class index extends foreground {
         $mail->From = "tommy19830720@gmail.com";        //寄件者信箱
         $mail->FromName = "tommy";    //寄信者姓名
         $mail->Subject = "VN帳號驗證";     //信件主旨
-        $mail->Body = $name."您好~請點選此網址驗證您的帳號".APP_PATH.'#/fabia_gmail/'.$code;        //信件內容
+        $mail->Body = $name."您好~請點選此網址驗證您的帳號".APP_PATH.'#/fabia_gmail/'.$timecode;        //信件內容
         $mail->AddAddress($_email);   //收件者信箱
         if($mail->Send()){
-            //echo "寄信成功";
+
+			if(isset($_GET['gid'])){
+                alert::message(1,L('驗證信件已送出'));
+			}
+
+
         }else{
-            //echo "寄信失敗";
+
+            alert::message(-1,L('寄信失敗'));
+            //echo "Error: " . $mail->ErrorInfo;
         }
 
 
@@ -230,8 +246,6 @@ class index extends foreground {
 
 				if($status > 0) {
                     $timestamp = time() ;
-                    $timecode=base64_encode($timestamp);
-                    param::set_cookie('timecode', $timecode, $timestamp+600);
                     param::set_cookie('timeuser', json_encode($userinfo), $timestamp+600);
 					$userinfo['phpssouid'] = $status;
 					//传入phpsso为明文密码，加密后存入phpcms_v9
@@ -290,7 +304,7 @@ class index extends foreground {
 						$synloginstr = $this->client->ps_member_synlogin($userinfo['phpssouid']);
                         if($type){
 							if($webname){
-								$this->sendgmail($userinfo['email'],$userinfo['nickname'],$timecode);
+								$this->sendgmail($userinfo['email'],$userinfo['nickname']);
 							}
                             alert::message(1,L('operation_success'));
                         }else{
@@ -896,7 +910,11 @@ class index extends foreground {
 
             if($webname){
                 if($r['yes']==0){
-                    alert::message(-1,L('您尚未email驗證'));
+                    $r = $this->db->get_one(array('email'=>$email));
+                    $r['password']=$_POST['password'];
+                    $timestamp = time() ;
+                    param::set_cookie('timeuser', json_encode($r), $timestamp+600);
+                    alert::message(-2,L('您尚未email驗證'));
                 }
             }
 

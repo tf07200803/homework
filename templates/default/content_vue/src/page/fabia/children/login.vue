@@ -120,6 +120,9 @@
                                 alert(res.msg)
                             }else if(res.status==1){
                                 self.$router.push('/fabia/fabia_home');
+                            }else if(res.status==-2){
+                                alert(res.msg)
+                                self.$router.push('/fabia_regmail/'+self.email);
                             }
                             console.log(res)
                         })
