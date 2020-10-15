@@ -376,8 +376,8 @@ class content_model extends model {
             if($data['program_people']==''){alert::message(-500,L('program_people'));}
             if($data['program_story']==''){alert::message(-500,L('program_story'));}
             if($data['has_agree']==''){alert::message(-500,L('has_agree'));}
-            if($data['has_name']==''){alert::message(-500,L('has_name'));}
-            if($data['has_file']==''){alert::message(-500,L('has_file'));}
+            if($data['has_name']=='' && $data['has_agree']==1){alert::message(-500,L('has_name'));}
+            if($data['has_file']=='' && $data['has_agree']==1){alert::message(-500,L('has_file'));}
 
 
             $systeminfo['program_name']=$data['program_name'];

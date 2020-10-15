@@ -7,55 +7,15 @@
 
             </div>
 
-            <div class="row m-0 p-0">
-
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">節目名稱：</label><input type="text" id="program_name" name="program_name" size="36" class="input-text col-12 col-lg-12" v-model="program_name" placeholder="節目名稱"></div>
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">製作人：</label><input type="text" id="program_men" name="program_men" size="36" class="input-text col-12 col-lg-12" v-model="program_men" placeholder="製作人"></div>
-            </div>
 
             <div class="row m-0 p-0">
 
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">劇情簡介：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
-                    <textarea name="program_detail" id="program_detail" class="input-text col-12 col-lg-12" rows="5" cols="50" placeholder="(以 150 字為限，不含半形標點符號)" v-model="program_detail"></textarea>
-                </div>
-
-            </div>
-            <div class="row m-0 p-0">
-
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">人物表：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
-                    <textarea name="program_people" id="program_people" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)" v-model="program_people"></textarea>
-                </div>
-
-            </div>
-            <div class="row m-0 p-0">
-
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">故事大綱：<span style="color:red">請勿列出學校、編劇及工作人員名單。</span></label>
-                    <textarea name="program_story" id="program_story" class="input-text col-12 col-lg-12" rows="10" cols="50" placeholder="(以 1000 字為限，不含半形標點符號)" v-model="program_story"></textarea>
-                </div>
-
-            </div>
-
-
-            <div class="row m-0 p-0">
-
-                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label>作品屬於：</label>
-                    <input type="radio" name="has_agree" value="0" v-model="has_agree"/><span class="normal_size">&nbsp;原創&nbsp;&nbsp;</span>
-                    <input type="radio" name="has_agree" value="1" v-model="has_agree"/><span class="normal_size">&nbsp;原著改編</span>
-                </div>
-
-            </div>
-
-
-            <div class="row m-0 p-0" v-if="has_agree==1">
-
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著名稱：</label><input type="text" id="has_name" name="has_name" size="36" class="input-text col-12 col-lg-12" v-model="has_name" placeholder="原著名稱"></div>
-                <!--<div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著應為經公開發表之著作，並請上傳原著改作同意書 (PDF/JPG)：</label><input type="file" id="has_file" name="has_file" size="36" class="input-text col-12 col-lg-12"></div>-->
-                <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著應為經公開發表之著作，並請上傳原著改作同意書 (PDF/JPG)：</label>
+                <div class="input col-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">學校系所出具證明書（需請指導老師簽名，並蓋系所章），電子檔一份 (PDF/JPG) ：</label>
 
 
                     <div class="row m-0 p-0">
-                        <div class="col-9 pl-0 pr-0"><input type="text" id="has_file" name="has_file" size="36" class="input-text w-100" v-model="has_file" readonly></div>
-                        <div class="col-3 pl-0 pr-0 uploadiv">上傳<input type="file" accept="image/jpeg,application/pdf" id="uploadbtn" name="uploadbtn" @change="filechange"></div>
+                        <div class="col-9 pl-0 pr-0"><input type="text" id="has_file" name="has_file" size="36" class="input-text w-100" v-model="sbook" readonly></div>
+                        <div class="col-3 pl-0 pr-0 uploadiv">上傳<input type="file" accept="image/jpeg,application/pdf" id="sbook" name="sbook" @change="sbookchange"></div>
                     </div>
 
 
@@ -65,6 +25,108 @@
 
 
             </div>
+
+
+            <div class="row m-0 p-0">
+
+
+                <div class="input col-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">導演、編劇基本資料及在學或休學證明書，電子檔各一份 (PDF/JPG)；若導演與編劇同一人，仍須分別上傳</label></div>
+
+
+            </div>
+
+
+            <div class="row m-0 p-0">
+
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 contactroot">
+                    <label class="d-block">導演：</label>
+
+                    <div class="row m-0 p-1 bg-gray contactdiv" v-for="(infor,index,i) in director">
+                        <input type="text" id="add_name" name="add_name" size="36" class="input-text col-6 col-lg-3 mb-md-1 mb-sm-1 mb-1 mb-lg-0"  placeholder="姓名"  v-model="infor.name">
+                        <input type="tel" id="add_tel" name="add_tel" size="36" class="input-text col-6 col-lg-3 mb-md-0 mb-sm-1 mb-1 mb-lg-0"  placeholder="電話" v-model="infor.tel">
+                        <input type="text" id="add_email" name="add_email" size="36" class="input-text col-12 col-lg-6 mb-1"  placeholder="email" v-model="infor.email">
+                        <div class="input col-12 m-0 p-0"><label class="d-block">在校或休學證明：</label>
+
+
+                            <div class="row m-0 p-0">
+                                <div class="col-9 pl-0 pr-0"><input type="text" id="has_file" name="has_file" size="36" class="input-text w-100" v-model="filepath" readonly></div>
+                                <div class="col-3 pl-0 pr-0 uploadiv">上傳<input type="file" accept="image/jpeg,application/pdf" id="uploadbtn" name="uploadbtn" @change="filechange"></div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-12 text-right m-0 p-0 delbtn" @click="delcase(index)" v-if="index>0">X移除</div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3">
+                    <label class="d-block text-right addbtn" @click="addcase()">新增</label>
+                </div>
+
+
+            </div>
+
+            <div class="row m-0 p-0">
+
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 contactroot">
+                    <label class="d-block">編劇：</label>
+
+                    <div class="row m-0 p-1 bg-gray contactdiv" v-for="(infor,index,i) in screenwriter">
+                        <input type="text" id="add_name" name="add_name" size="36" class="input-text col-6 col-lg-3 mb-md-1 mb-sm-1 mb-1 mb-lg-0"  placeholder="姓名"  v-model="infor.name">
+                        <input type="tel" id="add_tel" name="add_tel" size="36" class="input-text col-6 col-lg-3 mb-md-0 mb-sm-1 mb-1 mb-lg-0"  placeholder="電話" v-model="infor.tel">
+                        <input type="text" id="add_email" name="add_email" size="36" class="input-text col-12 col-lg-6 mb-1"  placeholder="email" v-model="infor.email">
+                        <div class="input col-12 m-0 p-0"><label class="d-block">在校或休學證明：</label>
+
+
+                            <div class="row m-0 p-0">
+                                <div class="col-9 pl-0 pr-0"><input type="text" id="has_file" name="has_file" size="36" class="input-text w-100" v-model="filepath" readonly></div>
+                                <div class="col-3 pl-0 pr-0 uploadiv">上傳<input type="file" accept="image/jpeg,application/pdf" id="uploadbtn" name="uploadbtn" @change="filechange"></div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-12 text-right m-0 p-0 delbtn" @click="delcase(index)" v-if="index>0">X移除</div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="input col-lg-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3">
+                    <label class="d-block text-right addbtn" @click="addcase()">新增</label>
+                </div>
+
+
+            </div>
+
+            <div class="row m-0 p-0">
+
+                <div class="input col-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">分場大綱，PDF 檔一份，宜以 12-20 號字(pt)繕打（檔案建議壓浮水印）：</label>
+
+
+                    <div class="row m-0 p-0">
+                        <div class="col-9 pl-0 pr-0"><input type="text" id="has_file" name="has_file" size="36" class="input-text w-100" v-model="opera" readonly></div>
+                        <div class="col-3 pl-0 pr-0 uploadiv">上傳<input type="file" accept="image/jpeg,application/pdf" id="opera" name="opera" @change="operachange"></div>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
 
 
 
@@ -103,14 +165,10 @@
                 showpath:'index.php?m=content&c=index&a=show&catid=6&id=3&webtype=fabric',
                 editpath:'index.php?m=content&c=index&a=edit',
                 uploadpath:'index.php?m=content&c=index&a=upload',
-                program_name:'',
-                program_men:'',
-                program_detail:'',
-                program_people:'',
-                program_story:'',
-                has_agree:0,
-                has_name:'',
-                has_file:'',
+                director:[{name:'',tel:'',email:'',filepath:''}],
+                screenwriter:[{name:'',tel:'',email:'',filepath:''}],
+                sbook:'',
+                opera:'',
                 caseid:'',
                 id:'',
             }
@@ -120,20 +178,8 @@
             var self=this
 
 
-            /*axios.get(this.loginpath, {
-            }).then(function (response) {
-                var res=response.data;
-                if(res.status==-1){
-                    self.$router.push('/fabia/fabia_login');
-                }else if(res.status==1){
-                    self.username=res.data.username;
-                    self.nickname=res.data.nickname;
-                    self.email=res.data.email;
-                }
-            }).catch(function (err) {
-                console.log(err);
-            });*/
-            axios.get(this.showpath, {
+
+            /*axios.get(this.showpath, {
             }).then(function (response) {
                 var res=response.data;
 
@@ -155,7 +201,7 @@
 
             }).catch(function (err) {
                 console.log(err);
-            });
+            });*/
 
         },
 
@@ -172,6 +218,9 @@
 
             gotoAddress(path){
                 this.$router.push(path)
+            },
+            schoolchange:function(e){
+
             },
 
             filechange:function(e){
@@ -260,7 +309,6 @@
 
                         }else if(res.status==1){
                             alert(res.msg)
-                            self.$router.push('/fabia/fabia_case2');
                         }else if(res.status==-1){
                             alert(res.msg)
                             self.$router.push('/fabia/fabia_login');

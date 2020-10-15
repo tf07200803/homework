@@ -72,6 +72,7 @@ const fabia_register = r => require.ensure([], () => r(require('../page/fabia/ch
 const fabia_home = r => require.ensure([], () => r(require('../page/fabia/children/home')), 'fabia_home')
 const fabia_gmail = r => require.ensure([], () => r(require('../page/fabia/children/gmail')), 'fabia_gmail')
 const fabia_case = r => require.ensure([], () => r(require('../page/fabia/children/case')), 'fabia_case')
+const fabia_case2 = r => require.ensure([], () => r(require('../page/fabia/children/case2')), 'fabia_case2')
 const fabia_regmail = r => require.ensure([], () => r(require('../page/fabia/children/regmail')), 'fabia_regmail')
 
 export default [{
@@ -105,13 +106,18 @@ export default [{
                     component: fabia_gmail,
                 },
                 {
+                    path: '/fabia_regmail/:aid', //補驗證信
+                    component: fabia_regmail,
+                },
+                {
                     path: 'fabia_case', //案子內容
                     component: fabia_case,
                 },
                 {
-                    path: '/fabia_regmail/:aid', //補驗證信
-                    component: fabia_regmail,
+                    path: 'fabia_case2', //案子內容
+                    component: fabia_case2,
                 },
+
 
             ]
         },

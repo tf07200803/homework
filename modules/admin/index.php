@@ -340,7 +340,7 @@ class index extends admin {
 
 
 	public function upload(){
-        $uploadfile; // 图片的名字
+
         if($_POST['uploadpic']=='上传'){
             $dest_folder   =  "uploadfile/poster/";   //上传图片保存的路径 图片放在跟你upload.php同级的picture文件夹里
             $arr=array();   //定义一个数组存放上传图片的名称方便你以后会用的。
@@ -369,7 +369,7 @@ class index extends admin {
 
                     $imageSrc=  $path."/". $name;  //图片名字
 
-                    $uploadfile = $dest_folder.$name;     // 文件的路径
+
                     move_uploaded_file($tmp_name, $imageSrc);
                     /*$arr[$count]=$uploadfile;
                     $query="insert into product(name,tupian,pLike) values('$prename','$uploadfile','0')"; // 插入到数据库
