@@ -103,6 +103,17 @@ class index extends foreground {
 	}
 
 
+
+	public function userfinish(){
+
+        $r = $this->db->get_one(array('email'=>$email));
+
+        var_dump($r);
+
+		die;
+	}
+
+
 	public function register() {
 
 		$type=isset($_POST['webtype']) ? true : false;

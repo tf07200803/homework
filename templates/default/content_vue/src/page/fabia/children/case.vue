@@ -53,9 +53,8 @@
                 <div class="input col-lg-6 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-2 mb-3"><label class="d-block">原著應為經公開發表之著作，並請上傳原著改作同意書 (PDF/JPG)：</label>
 
 
-                    <div class="row m-0 p-0">
-                        <div class="col-9 pl-0 pr-0"><input type="text" id="has_file" name="has_file" size="36" class="input-text w-100" v-model="has_file" readonly></div>
-                        <div class="col-3 pl-0 pr-0 uploadiv">上傳<input type="file" accept="image/jpeg,application/pdf" id="uploadbtn" name="uploadbtn" @change="filechange"></div>
+                    <div class="row m-0 p-0" v-for="(infor,index,i) in has_file">
+                        <footer-area :sendData="infor"></footer-area>
                     </div>
 
 
@@ -93,7 +92,7 @@
     import 'src/style/init.css'
     import $ from "jquery";
     import axios from 'axios';
-
+    import footerArea from './uploadutil'
 
     export default {
         data(){
@@ -110,7 +109,7 @@
                 program_story:'',
                 has_agree:0,
                 has_name:'',
-                has_file:'',
+                has_file:[{filepath:'',id:'has_file'}],
                 caseid:'',
                 id:'',
             }
@@ -147,7 +146,7 @@
                     self.program_story=res.data.program_story
                     self.has_agree=res.data.has_agree
                     self.has_name=res.data.has_name
-                    self.has_file=res.data.has_file
+                    self.has_file=[{filepath:res.data.has_file,id:'has_file'}]
                     self.id=res.data.id
                     self.caseid=res.data.caseid
                 }
@@ -160,7 +159,7 @@
         },
 
         components:{
-
+            footerArea,
         },
 
         computed:{
@@ -190,7 +189,7 @@
                         var res=response.data;
                         if(res.status==1){
                             alert(res.msg)
-                            self.has_file=res.data;
+                            self.has_file.filepath=res.data;
                         }else{
                             alert(res.msg)
                         }
@@ -217,7 +216,7 @@
                 bodyFormData.set('info[program_story]', self.program_story);
                 bodyFormData.set('info[has_agree]', self.has_agree);
                 bodyFormData.set('info[has_name]', self.has_agree==1 ? self.has_name : '');
-                bodyFormData.set('info[has_file]', self.has_agree==1 ? self.has_file : '');
+                bodyFormData.set('info[has_file]', self.has_agree==1 ? self.has_file[0].filepath : '');
                 bodyFormData.set('info[caseid]', self.caseid);
                 bodyFormData.set('id', self.id);
                 bodyFormData.set('dosubmit', '登录');

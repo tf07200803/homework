@@ -391,6 +391,76 @@ class content_model extends model {
             $this->table_name='news';
         }
 
+
+        if($data['title']=='fabia' && $data['content']=='case2'){
+            $systeminfo['caseid']=param::get_cookie('_userid');
+
+            if($data['sbook']==''){alert::message(-500,L('sbook'));}
+
+
+            $tempData = html_entity_decode($data['director']);
+            $add_contact=json_decode(str_replace ('\"','"', $tempData), true);
+
+
+            foreach ($add_contact as $k=>$v) {
+                if($v['name']==''){
+                    alert::message(-500,L('director_name'),$k);
+                }
+                if($v['tel']==''){
+                    alert::message(-500,L('director_tel'),$k);
+                }
+                if($v['email']==''){
+                    alert::message(-500,L('director_email'),$k);
+                }
+                if($v['filepath']==''){
+                    alert::message(-500,L('director_file'),$k);
+                }
+                if(!is_numeric($v['tel'])){
+                    alert::message(-500,L('director_tel'),$k);
+                }
+                if(!is_email($v['email'])){
+                    alert::message(-500,L('director_email'),$k);
+                }
+            }
+
+            $tempData = html_entity_decode($data['screenwriter']);
+            $add_contact=json_decode(str_replace ('\"','"', $tempData), true);
+
+
+            foreach ($add_contact as $k=>$v) {
+                if($v['name']==''){
+                    alert::message(-500,L('screenwriter_name'),$k);
+                }
+                if($v['tel']==''){
+                    alert::message(-500,L('screenwriter_tel'),$k);
+                }
+                if($v['email']==''){
+                    alert::message(-500,L('screenwriter_email'),$k);
+                }
+                if($v['filepath']==''){
+                    alert::message(-500,L('screenwriter_file'),$k);
+                }
+                if(!is_numeric($v['tel'])){
+                    alert::message(-500,L('screenwriter_tel'),$k);
+                }
+                if(!is_email($v['email'])){
+                    alert::message(-500,L('screenwriter_email'),$k);
+                }
+            }
+
+            if($data['opera']==''){alert::message(-500,L('opera'));}
+
+            $systeminfo['sbook']=$data['sbook'];
+            $systeminfo['director']=$data['director'];
+            $systeminfo['screenwriter']=$data['screenwriter'];
+            $systeminfo['opera']=$data['opera'];
+
+
+            $this->table_name='news';
+
+
+        }
+
 		$this->update($systeminfo,array('id'=>$id));
 
 		//附属表
