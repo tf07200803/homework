@@ -27,10 +27,10 @@
 
             </div>
 
-            <div class="regbtn mt-2 text-right">
+            <div class="row m-0 p-0  justify-content-end text-right">
 
 
-                    <a href="javascript:void(0)" @click = "gotoAddress('/fabia/fabia_register')">立即註冊</a>
+                    <a class="col-lg-4 col-md-12 pl-lg-0 pr-lg-1 mb-md-1 mb-sm-1 mb-3 mb-lg-0" href="javascript:void(0)" @click = "gotoAddress('/fabia/fabia_register')">立即註冊</a>
 
 
             </div>

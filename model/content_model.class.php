@@ -244,15 +244,23 @@ class content_model extends model {
 
 
 		//前台权限判断
-		if(!defined('IN_ADMIN') && $data['title']!='fabia') {
+		if(!defined('IN_ADMIN') && $data['title']!='fabia' && $data['title']!='fabia_get') {
 			$_username = param::get_cookie('_username');
 			$us = $this->get_one(array('id'=>$id,'username'=>$_username));
 			if(!$us) return false;
 		}
-
+        /*if($data['title']=='fabia_get'){
+            $this->table_name='news';
+            $r = $this->get_one(array('caseid'=>$id));
+            return $r;
+            die;
+        }*/
 		if($data['title']!='fabia'){
             $id=$data['id'];
 		}
+
+
+
 
 
 
@@ -457,6 +465,17 @@ class content_model extends model {
 
 
             $this->table_name='news';
+            /*$r = $this->get_one(array('caseid'=>$data['caseid']));
+            var_dump($r);*/
+
+            $member_db = pc_base::load_model('member_model');
+            $member_db->finish();
+
+
+
+
+
+
 
 
         }

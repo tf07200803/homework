@@ -411,7 +411,7 @@
                     }
                     self.opera=[{filepath:res.data.opera,id:'opera'}]
 
-                    self.userfinish()
+                    //self.userfinish()
 
 
                 }

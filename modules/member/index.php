@@ -106,11 +106,11 @@ class index extends foreground {
 
 	public function userfinish(){
 
-        $r = $this->db->get_one(array('email'=>$email));
+        $userid = param::get_cookie('_userid');
+        $content_db = pc_base::load_model('content_model');
+        $data['title']='fabia_get';
+        $r=$content_db->edit_content($data,$userid);
 
-        var_dump($r);
-
-		die;
 	}
 
 

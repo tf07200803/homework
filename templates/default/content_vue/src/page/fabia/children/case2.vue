@@ -302,7 +302,7 @@
                             self.$router.push('/fabia/fabia_finish');
                         }else if(res.status==-1){
                             alert(res.msg)
-                            self.$router.push('/fabia/fabia_login');
+                            //self.$router.push('/fabia/fabia_login');
                         }
                         console.log(res)
                     })
