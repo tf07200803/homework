@@ -4,7 +4,7 @@
 {/pc}
 <div class="main">
         <h2 class="comment-title blue"><a href="{if $comment[url]}{$comment[url]}{else}{$url}{/if}">{if $comment[title]}{$comment[title]}{else}{$title}{/if}</a> <a href="#comment" class="f12 fn"><font color="#FF0000">[我来说两句]</font></a></h2>
-        <div class="comment_button"><a href="{APP_PATH}index.php?m=comment&c=index&a=init&commentid={$commentid}&title={urlencode(($comment[title] ? $comment[title] : $title))}&url={urlencode(($comment[url] ? $comment[url] : $url))}&hot=0"{if empty($hot)} class="on"{/if}>最新</a> <a href="{APP_PATH}index.php?m=comment&c=index&a=init&commentid={$commentid}&title={urlencode(($comment[title] ? $comment[title] : $title))}&url={urlencode(($comment[url] ? $comment[url] : $url))}&hot=1"{if $hot} class="on"{/if}>最热</a></div> 	
+        <div class="comment_button"><a href="{APP_PATH}index.php?m=comment&c=index&a=init&commentid={$commentid}&title={urlencode(($comment[title] ? $comment[title] : $title))}&url={urlencode(($comment[url] ? $comment[url] : $url))}&hot=0"{if empty($hot)} class="on"{/if}>最新</a> <a href="{APP_PATH}index.php?m=comment&c=index&a=init&commentid={$commentid}&title={urlencode(($comment[title] ? $comment[title] : $title))}&url={urlencode(($comment[url] ? $comment[url] : $url))}&hot=1"{if $hot} class="on"{/if}>最热</a></div>
 	<div class="col-left">
        <div class="comment">
        <h4 class="f14">评论列表<span class="f12 fn">（评论 <font color="red">{if $comment[total]}{$comment[total]}{else}0{/if}</font>）以下网友评论只代表网友个人观点，不代表本站观点。</span></h4>
@@ -16,11 +16,11 @@
 	</div>
 	<div id="reply_{$r[id]}" style="display:none"></div>
 	</div>
-	
+
   <div class="bk30 hr mb8"></div>
   {/loop}
- 
- 
+
+
 </div>
  <div id="pages" class="text-r">{$pages}</div>
  {/pc}
@@ -34,7 +34,7 @@
 </div>
         <textarea rows="8" cols="80" name="content"></textarea><br>
 		{if $setting[code]}
-		
+
 		  <label>验证码：<input type="text" name="code"  class="input-text" id="yzmText" onfocus="var offset = $(this).offset();$('#yzm').css({'left': +offset.left-8, 'top': +offset.top-$('#yzm').height()});$('#yzm').show();$('#yzmText').data('hide', 1)" onblur='$("#yzmText").data("hide", 0);setTimeout("hide_code()", 3000)' /></label>
 		  <div id="yzm" class="yzm">{form::checkcode()}<br />点击图片更换</a></div>
         <div class="bk10"></div>
