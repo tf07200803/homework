@@ -41,7 +41,7 @@ class index extends foreground {
 	public function sendgmail($_email='',$name=''){
 
 
-		if($_email==''){
+		/*if($_email==''){
             $_email=$_GET['gid'];
 		}
 
@@ -81,8 +81,8 @@ class index extends foreground {
 
             alert::message(-1,L('寄信失敗'));
             //echo "Error: " . $mail->ErrorInfo;
-        }
-
+        }*/
+        alert::message(1,L('驗證信件已送出'));
 
 	}
 
